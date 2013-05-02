@@ -6,6 +6,8 @@ namespace ReadyPlayerSite.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using ReadyPlayerSite.Models;
+    using System.Web.Security;
+    using WebMatrix.WebData;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ReadyPlayerSite.Models.PlayerDbContext>
     {
@@ -18,32 +20,58 @@ namespace ReadyPlayerSite.Migrations
         {
             Random rand = new Random();
 
-            List<User> users = new List<User>();
-            for (int i = 1; i < 101; i++)
+            WebSecurity.InitializeDatabaseConnection(
+                "PlayerDBContext",
+                "Users",
+                "ID",
+                "username", autoCreateTables: true);
+
+            if (!Roles.RoleExists("Administrator"))
             {
-                User user = new User { ID = i, password = "password", realName = "TesterReal" + i, username = "TesterUserName" + i };
-                users.Add(user);
-                context.Users.Add(user);
+                Roles.CreateRole("Administrator");
             }
+
+            if (!WebSecurity.UserExists("admin"))
+            {
+                WebSecurity.CreateUserAndAccount(
+                    "admin",
+                    "admin",
+                    new { realName = "Administrator" });
+            }
+            if (!Roles.GetRolesForUser("admin").Contains("Administrator"))
+            {
+                Roles.AddUserToRole("admin", "Administrator");
+            }
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (!WebSecurity.UserExists("player" + i))
+                {
+                    WebSecurity.CreateUserAndAccount(
+                        "player" + i,
+                        "password",
+                        new { realName = "Player" + i + " Real Name" });
+                }
+            }
+
             context.SaveChanges();
-            List<Player> players = new List<Player>();
+            List<User> users = context.Users.ToList();
             foreach (User u in users)
             {
                 int i = 1;
                 Player player = createPlayer(u, rand, i++);
-                players.Add(player);
                 context.Players.Add(player);
             }
             context.SaveChanges();
-            List<Task> tasks = new List<Task>();
+
             for (int i = 1; i < 11; i++)
             {
                 Task task = createTask(rand, i);
-                tasks.Add(task);
                 context.Tasks.Add(task);
             }
             context.SaveChanges();
-            var tasks_and_milestones = tasks.GroupBy(t => t.isMilestone).OrderBy(g => g.Key).Select(g => g.ToList()).ToArray();
+
+            var tasks_and_milestones = context.Tasks.ToList().GroupBy(t => t.isMilestone).OrderBy(g => g.Key).Select(g => g.ToList()).ToArray();
             Player first = context.Players.First();
             first.tasksCompleted = new List<Task>();
             first.milestonesCompleted = new List<Task>();
