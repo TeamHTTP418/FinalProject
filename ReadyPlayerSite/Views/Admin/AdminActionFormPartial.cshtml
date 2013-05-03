@@ -1,0 +1,37 @@
+﻿@model ReadyPlayerSite.Models.AdminAction
+
+@Html.ValidationSummary(true)
+<fieldset>
+    <legend>Admin Action Information</legend>
+    <ol>
+        <li>
+            @Html.LabelFor(model => model.player.user.username)
+            @Html.DisplayFor(model => model.player.user.username)
+        </li>
+        <li>
+            @Html.LabelFor(model => model.player.eid)
+            @Html.DisplayFor(model => model.player.eid)
+        </li>
+        <li>
+            @Html.LabelFor(model => model.type)
+            @Html.EditorFor(model => model.type)
+            @Html.ValidationMessageFor(model => model.type)
+        </li>
+        <li>
+            @Html.LabelFor(model => model.modifyTarget)
+            @Html.EditorFor(model => model.modifyTarget)
+            @Html.ValidationMessageFor(model => model.modifyTarget)
+        </li>
+        <li>
+            @Html.LabelFor(model => model.value)
+            @Html.EditorFor(model => model.value)
+            @Html.ValidationMessageFor(model => model.value)
+        </li>
+        <li>
+            @Html.LabelFor(model => model.reason)
+            @Html.EditorFor(model => model.reason)
+            @Html.ValidationMessageFor(model => model.reason)
+        </li>
+    </ol>
+
+</fieldset>

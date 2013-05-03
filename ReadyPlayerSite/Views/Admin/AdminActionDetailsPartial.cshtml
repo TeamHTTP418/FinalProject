@@ -1,0 +1,50 @@
+﻿@model ReadyPlayerSite.Models.AdminAction
+@using ReadyPlayerSite.Models
+<p>
+    <strong>User Modified</strong>
+</p>
+<p>
+    @Html.DisplayNameFor(model => model.player.user.realName):
+    @Html.DisplayFor(model => model.player.user.realName)
+</p>
+<p>
+    @Html.DisplayNameFor(model => model.player.user.username):
+    @Html.DisplayFor(model => model.player.user.username)
+</p>
+<p>
+    @Html.DisplayNameFor(model => model.player.eid):
+    @Html.DisplayFor(model => model.player.eid)
+</p>
+<p>
+    <strong>@Html.DisplayNameFor(model => model.type):</strong>
+    @Html.DisplayFor(model => model.type)
+</p>
+@if (Model.type == AdminActionType.AddPoints || Model.type == AdminActionType.RemovePoints)
+{
+    <p>
+        <strong>@Html.DisplayNameFor(model => model.modifyTarget):</strong>
+        @Html.DisplayFor(model => model.modifyTarget)
+    </p>
+    <p>
+        <strong>@Html.DisplayNameFor(model => model.value):</strong> @Html.DisplayFor(model => model.value)
+    </p>
+}
+<p>
+    <strong>@Html.DisplayNameFor(model => model.reason)</strong>
+</p>
+<p>
+    @Html.DisplayFor(model => model.reason)
+</p>
+<p>
+    <strong>Issued By:</strong>
+</p>
+<p>
+    @Html.DisplayFor(model => model.user.username)
+</p>
+<p>
+    @Html.DisplayNameFor(model => model.when)
+     @Html.DisplayFor(model => model.when)
+</p>
+<p>
+   
+</p>

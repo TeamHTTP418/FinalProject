@@ -1,0 +1,52 @@
+﻿@model List<ReadyPlayerSite.Models.AdminAction>
+
+@if (Model.Count <= 0)
+{
+    <h3>No Administration Actions Performed</h3>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().player.user.username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().player.user.realName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().when)
+            </th>
+            <th>
+                @Html.Raw("Issued By")
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.username), "../Players/Details", new { id = item.playerID })
+                </td>
+                <td>
+                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.realName), "../Users/Details", new { id = item.player.userID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.when)
+                </td>
+                <td>
+                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.user.username), "../Users/Details", new { id = item.userID })
+                </td>
+                <td>
+                    @Html.ActionLink("View Details", "Details", new { id = item.ID } )
+                </td>
+            </tr>
+        }
+    </table>   
+}
