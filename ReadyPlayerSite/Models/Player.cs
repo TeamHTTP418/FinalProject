@@ -45,30 +45,68 @@ namespace ReadyPlayerSite.Models
             return attendanceScore + puzzleScore + crossCurricularScore + cooperationScore + storyScore;
         }
 
-        public bool addTaskPoints(Task task)
+        public bool addPoints(TaskType type, int amount)
         {
-            switch (task.type)
+            switch (type)
             {
                 case TaskType.Attendance:
-                    attendanceScore += task.value;
+                    attendanceScore += amount;
                     break;
                 case TaskType.Cooperation:
-                    cooperationScore += task.value;
+                    cooperationScore += amount;
                     break;
                 case TaskType.CrossCurricular:
-                    crossCurricularScore += task.value;
+                    crossCurricularScore += amount;
                     break;
                 case TaskType.Puzzle:
-                    puzzleScore += task.value;
+                    puzzleScore += amount;
                     break;
                 case TaskType.Story:
-                    storyScore += task.value;
+                    storyScore += amount;
                     break;
                 default:
                     return false;
             }
 
             return true;
+        }
+
+        public bool addHeldPoints(TaskType type, int amount)
+        {
+            switch (type)
+            {
+                case TaskType.Attendance:
+                    freezeInfo.attendanceScore += amount;
+                    break;
+                case TaskType.Cooperation:
+                    freezeInfo.cooperationScore += amount;
+                    break;
+                case TaskType.CrossCurricular:
+                    freezeInfo.crossCurricularScore += amount;
+                    break;
+                case TaskType.Puzzle:
+                    freezeInfo.puzzleScore += amount;
+                    break;
+                case TaskType.Story:
+                    freezeInfo.storyScore += amount;
+                    break;
+                default:
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool addTaskPoints(Task task)
+        {
+            if (freezeInfoID.HasValue)
+            {
+                return addHeldPoints(task.type, task.value);
+            }
+            else
+            {
+                return addPoints(task.type, task.value);
+            }
         }
 
         public bool isFrozen()

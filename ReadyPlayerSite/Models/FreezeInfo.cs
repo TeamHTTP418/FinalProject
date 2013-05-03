@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -28,8 +29,15 @@ namespace ReadyPlayerSite.Models
         [DisplayName("Held Story Score")]
         public int storyScore { get; set; }
 
-        [ScaffoldColumn(false)]
-        public int playerID { get; set; }
         public virtual Player player { get; set; }
+
+        public void addPointsToPlayer()
+        {
+            player.attendanceScore += attendanceScore;
+            player.cooperationScore += cooperationScore;
+            player.crossCurricularScore += crossCurricularScore;
+            player.puzzleScore += puzzleScore;
+            player.storyScore += storyScore;
+        }
     }
 }

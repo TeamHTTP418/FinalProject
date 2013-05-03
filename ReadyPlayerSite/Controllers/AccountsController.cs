@@ -1,4 +1,4 @@
-﻿using CIS726_Assignment2.ViewModels;
+﻿using ReadyPlayerSite.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,7 @@ namespace ReadyPlayerSite.Controllers
             {
                 if (returnUrl == null)
                 {
-                    returnUrl = "/Courses/Index"; //TODO: URL Change
+                    returnUrl = "/Users/Index"; //TODO: URL Change
                 }
                 return RedirectToLocal(returnUrl);
             }
@@ -53,7 +53,7 @@ namespace ReadyPlayerSite.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Courses"); //TODO: URL Change
+            return RedirectToAction("Index", "Users"); //TODO: URL Change
         }
 
         //
@@ -80,7 +80,7 @@ namespace ReadyPlayerSite.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { realName = model.realName }, false);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Courses"); //TODO: URL Change
+                    return RedirectToAction("Index", "Users"); //TODO: URL Change
                 }
                 catch (MembershipCreateUserException e)
                 {

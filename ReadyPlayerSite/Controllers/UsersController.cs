@@ -6,16 +6,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ReadyPlayerSite.Models;
+using WebMatrix.WebData;
 
 namespace ReadyPlayerSite.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
     public class UsersController : Controller
     {
         private PlayerDbContext db = new PlayerDbContext();
 
         //
         // GET: /Users/
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
@@ -23,20 +25,28 @@ namespace ReadyPlayerSite.Controllers
 
         //
         // GET: /Users/Details/5
-        
+        [Authorize]
         public ActionResult Details(int id = 0)
         {
+
+            if (id != WebSecurity.CurrentUserId && !System.Web.HttpContext.Current.User.IsInRole("Administrator"))
+            {
+                return RedirectToAction("Details", new { id = WebSecurity.CurrentUserId });
+            }
+
             User user = db.Users.Find(id);
+
             if (user == null)
             {
                 return HttpNotFound();
             }
+
             return View(user);
         }
 
         //
         // GET: /Users/Create
-
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +56,7 @@ namespace ReadyPlayerSite.Controllers
         // POST: /Users/Create
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
@@ -60,7 +71,7 @@ namespace ReadyPlayerSite.Controllers
 
         //
         // GET: /Users/Edit/5
-
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int id = 0)
         {
             User user = db.Users.Find(id);
@@ -75,6 +86,7 @@ namespace ReadyPlayerSite.Controllers
         // POST: /Users/Edit/5
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(User user)
         {
             if (ModelState.IsValid)
@@ -88,7 +100,7 @@ namespace ReadyPlayerSite.Controllers
 
         //
         // GET: /Users/Delete/5
-
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int id = 0)
         {
             User user = db.Users.Find(id);
@@ -103,6 +115,7 @@ namespace ReadyPlayerSite.Controllers
         // POST: /Users/Delete/5
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult DeleteConfirmed(int id)
         {
             User user = db.Users.Find(id);

@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebMatrix.WebData;
 
 namespace ReadyPlayerSite
 {
@@ -22,6 +23,8 @@ namespace ReadyPlayerSite
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            WebSecurity.InitializeDatabaseConnection("PlayerDBContext", "Users", "ID", "username", autoCreateTables: true);
         }
     }
 }
