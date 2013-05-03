@@ -3,7 +3,7 @@ namespace ReadyPlayerSite.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDataSchemaWithAuth : DbMigration
+    public partial class InitDatabase : DbMigration
     {
         public override void Up()
         {
@@ -57,7 +57,7 @@ namespace ReadyPlayerSite.Migrations
                 "dbo.AdminActions",
                 c => new
                     {
-                        ID = c.Int(nullable: false),
+                        ID = c.Int(nullable: false, identity: true),
                         type = c.Int(nullable: false),
                         modifyTarget = c.Int(),
                         value = c.Int(),
@@ -67,9 +67,9 @@ namespace ReadyPlayerSite.Migrations
                         userID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Users", t => t.ID)
+                .ForeignKey("dbo.Users", t => t.userID)
                 .ForeignKey("dbo.Players", t => t.playerID)
-                .Index(t => t.ID)
+                .Index(t => t.userID)
                 .Index(t => t.playerID);
             
             CreateTable(
@@ -126,7 +126,7 @@ namespace ReadyPlayerSite.Migrations
             DropIndex("dbo.PlayerToMilestones", new[] { "Player_ID" });
             DropIndex("dbo.FreezeInfoes", new[] { "ID" });
             DropIndex("dbo.AdminActions", new[] { "playerID" });
-            DropIndex("dbo.AdminActions", new[] { "ID" });
+            DropIndex("dbo.AdminActions", new[] { "userID" });
             DropIndex("dbo.Players", new[] { "userID" });
             DropForeignKey("dbo.PlayerToTasks", "Task_ID", "dbo.Tasks");
             DropForeignKey("dbo.PlayerToTasks", "Player_ID", "dbo.Players");
@@ -134,7 +134,7 @@ namespace ReadyPlayerSite.Migrations
             DropForeignKey("dbo.PlayerToMilestones", "Player_ID", "dbo.Players");
             DropForeignKey("dbo.FreezeInfoes", "ID", "dbo.Players");
             DropForeignKey("dbo.AdminActions", "playerID", "dbo.Players");
-            DropForeignKey("dbo.AdminActions", "ID", "dbo.Users");
+            DropForeignKey("dbo.AdminActions", "userID", "dbo.Users");
             DropForeignKey("dbo.Players", "userID", "dbo.Users");
             DropTable("dbo.PlayerToTasks");
             DropTable("dbo.PlayerToMilestones");

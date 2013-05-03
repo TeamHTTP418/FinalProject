@@ -5,13 +5,13 @@ namespace ReadyPlayerSite.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class InitialSchema : IMigrationMetadata
+    public sealed partial class refactorFreezeInfoFrnKey : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialSchema));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(refactorFreezeInfoFrnKey));
         
         string IMigrationMetadata.Id
         {
-            get { return "201304302304069_InitialSchema"; }
+            get { return "201305030113333_refactorFreezeInfoFrnKey"; }
         }
         
         string IMigrationMetadata.Source
