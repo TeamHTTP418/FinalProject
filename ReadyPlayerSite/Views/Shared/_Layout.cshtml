@@ -9,22 +9,39 @@
 </head>
 <body>
     <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Ready Player One ~ Hale Librabry", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Leader Board", "Home")</li>
-                            <li>@Html.ActionLink("Leader Board", "Leader Board", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title">@Html.ActionLink("Ready Player One ~ Hale Librabry", "Index", "Home")</p>
             </div>
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+                <nav class="top_menu">
+                    <ul id="menu">
+                        <li>@Html.ActionLink("Home", "Leader Board", "Home")</li>
+                        <li>@Html.ActionLink("Leader Board", "Leader Board", "Home")</li>
+                        @if (User.IsInRole("Administrator"))
+                        { 
+                            <li>@Html.ActionLink("User Profiles", "Index", "Users")</li>
+                            <li>@Html.ActionLink("Administration", "Index", "Admin")</li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </header>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <footer class="footer">
+        Peter Machutta and Brian Dye's Final Project
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
