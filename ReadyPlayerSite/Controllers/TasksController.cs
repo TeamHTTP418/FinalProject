@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace ReadyPlayerSite.Controllers
 {
@@ -47,18 +48,19 @@ namespace ReadyPlayerSite.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(HttpPostedFileBase file, int num = 0)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            
+            return View();
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public void LoadIcon(HttpPostedFileBase file, int num = 0)
+        {
+            string fileName = Path.GetFileName(file.FileName);
+            string path = Path.Combine(Server.MapPath("~/Content/icons"), fileName);
+            file.SaveAs(path);
         }
 
         //

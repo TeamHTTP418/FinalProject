@@ -1,0 +1,40 @@
+﻿@model ReadyPlayerSite.Models.Task
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<body>
+    <form action="LoadIcon" method="post" enctype="multipart/form-data" id="form" >
+        <input type="number" name="num" id ="num" />
+        <input type='file' name="file" id="file" onchange="readURL(this);" />
+        <input type="submit" value="Submit Icon" />
+    </form>
+</body>
+
+ <img id="previewImage" src="@Url.Content("~/Content/icons/defaulticon.png")" alt="Load a New Icon" title="Load a New Icon" height="42" width="42"/>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $('#form').submit(function (evt) {
+            alert("submit");
+
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#previewImage").attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}
