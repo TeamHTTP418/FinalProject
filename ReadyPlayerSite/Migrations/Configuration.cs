@@ -42,15 +42,15 @@ namespace ReadyPlayerSite.Migrations
             {
                 Roles.AddUserToRole("admin", "Administrator");
             }
-
+            string[] names = { "TrollBot", "John Smith", "American Dream", "Astoria Whynot", "Ghosty Mc-JimBob" };
             for (int i = 0; i < 20; i++)
             {
                 if (!WebSecurity.UserExists("player" + i))
                 {
                     WebSecurity.CreateUserAndAccount(
                         "player" + i,
-                        "password",
-                        new { realName = "Player" + i + " Real Name" });
+                        "testpassword",
+                        new { realName = names[rand.Next(0, names.Length)] });
                 }
             }
 
@@ -97,6 +97,7 @@ namespace ReadyPlayerSite.Migrations
 
         private static Player createPlayer(User user, Random rand, int i = 0)
         {
+            
             Player player = new Player
             {
                 ID = i,
