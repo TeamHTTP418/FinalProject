@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ReadyPlayerSite.Models;
+using ReadyPlayerSite.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,20 +10,28 @@ namespace ReadyPlayerSite.Controllers
 {
     public class TasksController : Controller
     {
+        private PlayerDbContext db = new PlayerDbContext();
+
         //
         // GET: /Tasks/
 
         public ActionResult Index()
         {
-            return View();
+            var lists = db.Tasks.ToList().GroupBy(t => t.isMilestone).OrderBy(g => g.Key).Select(g => g.ToList()).ToArray();
+            return View(new TasksAndMilestones { tasks = lists[0], milestones = lists[1] });
         }
 
         //
         // GET: /Tasks/Details/5
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int id = 0)
         {
-            return View();
+            Task t = db.Tasks.Find(id);
+            if (t == null)
+            {
+                return HttpNotFound();
+            }
+            return View(t);
         }
 
         //

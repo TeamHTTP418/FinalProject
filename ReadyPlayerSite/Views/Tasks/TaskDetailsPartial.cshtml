@@ -1,0 +1,56 @@
+﻿@model ReadyPlayerSite.Models.Task
+<p class="tableheader">
+    @if (Model.isMilestone)
+    {
+        <img src="@Url.Content("~/Content/icons/" + @Model.iconName)" alt="@Model.name" height="42" width="42"/>
+    }
+</p>
+<p class="tableheader">
+    @Html.DisplayFor(model => model.name)
+</p>
+<hr />
+<p class="tableheader">
+    @Html.DisplayFor(model => model.type)
+</p>
+<p class="tableheader">
+    @Html.DisplayFor(model => model.value)
+    @if (Model.value == 1)
+    {
+        @Html.Raw(" Point")
+    }
+    else
+    {
+        @Html.Raw(" Points")   
+    }
+    @if (Model.isMilestone)
+    {
+        @Html.Raw("( + ")
+        @Html.DisplayFor(model => model.bonusPoints)
+        @Html.Raw(" Bonus Points)")
+    }
+</p>
+<p>
+    @Html.DisplayFor(model => model.description)
+</p>
+<br />
+<p>
+    @if (Model.start.HasValue && Model.end.HasValue)
+    {
+        @Html.Raw("Available Between: ")
+        @Html.DisplayFor(model => model.start)
+        @Html.Raw(" To ")
+        @Html.DisplayFor(model => model.end)
+    }
+    else if (Model.start.HasValue)
+    {
+        @Html.Raw("Available After: ")
+        @Html.DisplayFor(model => model.start)
+    }
+    else if (Model.end.HasValue)
+    {
+        @Html.Raw("Available Until: ")
+        @Html.DisplayFor(model => model.end)
+    }else{
+        @Html.Raw("Always Available")   
+    }
+</p>

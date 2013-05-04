@@ -1,0 +1,22 @@
+﻿@model ReadyPlayerSite.Models.Task
+
+@{
+    if (Model.isMilestone)
+    {
+        ViewBag.Title = "Milestone Details";
+    }
+    else
+    {
+        ViewBag.Title = "Task Details";
+    }
+}
+
+<div class="contentbox">
+    <div class="liquid_100">
+            @Html.Partial("TaskDetailsPartial", Model)
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>
