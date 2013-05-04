@@ -125,36 +125,23 @@ namespace ReadyPlayerSite.Migrations
                     break;
                 case 2:
                     t.start = DateTime.Now.AddDays(rand.NextDouble() * 28 - 14);
-                    t.end = DateTime.Now.AddDays(rand.NextDouble() * 28 - 14);
+                    t.end = t.start.Value.AddDays(rand.NextDouble() * 28 - 14);
                     break;
                 default:
                     break;
             }
-            switch (rand.Next(0, 5))
-            {
-                case 0:
-                    t.type = TaskType.Attendance;
-                    break;
-                case 1:
-                    t.type = TaskType.Cooperation;
-                    break;
-                case 2:
-                    t.type = TaskType.CrossCurricular;
-                    break;
-                case 3:
-                    t.type = TaskType.Puzzle;
-                    break;
-                case 4:
-                    t.type = TaskType.Story;
-                    break;
-            }
+            TaskType[] types = Enum.GetValues(typeof(TaskType)) as TaskType[];
+            t.type = types[rand.Next(0, types.Length)];
+            string[] descriptions = {"Test Description", "Placeholder", "Auto Generated Description" };
+            t.description = descriptions[rand.Next(0, descriptions.Length)];
+            string[] icons = { "gate.png", "key.png", "quarter.png" };
             if (rand.Next(0, 2) == 0)
             {
                 t.isMilestone = true;
                 t.maxCompletedBonus = rand.Next(5, 15);
                 t.numberCompleted = 0;
                 t.bonusPoints = rand.Next(5, 10);
-                t.iconName = i == 0 ? "MileStoneIcon" : "MileStoneIcon" + i;
+                t.iconName = icons[rand.Next(0, icons.Length)];
             }
             return t;
         }
