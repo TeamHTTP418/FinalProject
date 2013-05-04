@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CIS726_Assignment2.ViewModels
+namespace ReadyPlayerSite.ViewModels
 {
     public class RegisterModel
     {
