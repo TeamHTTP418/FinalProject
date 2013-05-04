@@ -5,13 +5,13 @@ namespace ReadyPlayerSite.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class AddDescriptionToTask : IMigrationMetadata
+    public sealed partial class InitDatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDescriptionToTask));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201305040154574_AddDescriptionToTask"; }
+            get { return "201305040310350_InitDatabase"; }
         }
         
         string IMigrationMetadata.Source
