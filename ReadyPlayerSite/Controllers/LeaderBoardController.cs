@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.Entity;
 using ReadyPlayerSite.Models;
 using ReadyPlayerSite.Repository;
+using PagedList;
 
 
 
@@ -37,6 +38,10 @@ namespace ReadyPlayerSite.Controllers
             String crossCurricularSort = "";
             String cooperationSort = "";
             String storySort = "";
+            var playerList = from s in players.GetAll() select s;
+
+
+
 
 
             var playerListEnum = playerList.AsEnumerable();
@@ -51,7 +56,15 @@ namespace ReadyPlayerSite.Controllers
             int lastcrossCurricular = -1;
             int lastcooperation = -1;
             int laststory = -1;
+            int lastpuzzle = -1;
 
+            bool eidAsc = false;
+            bool totalAsc = false;
+            bool attendanceAsc = false;
+            bool crossCurricularAsc = false;
+            bool cooperationAsc = false;
+            bool storyAsc = false;
+            bool puzzleAsc = false;
 
 
             //parsing sorts
@@ -123,6 +136,17 @@ namespace ReadyPlayerSite.Controllers
                         laststory = i;
                     }
                 }
+                if (sorts[i].StartsWith("puzzle"))
+                {
+                    if (lasteid > 0)
+                    {
+                        sorts[lastpuzzle] = "";
+                    }
+                    else
+                    {
+                        lasteid = i;
+                    }
+                }
 
                 //doing sorts
                 foreach (string s in sorts)
@@ -136,106 +160,116 @@ namespace ReadyPlayerSite.Controllers
                     {
                         playerListEnum = playerListEnum.OrderBy(x => x.eid);
                         eidSort = eidSort + s + ";";
-                        hoursSort = hoursSort + s + ";";
-                        numAsc = true;
+                        eidAsc = true;
                     }
                     if (s.Equals("eid_desc"))
                     {
                         playerListEnum = playerListEnum.OrderByDescending(x => x.eid);
-                        titleSort = titleSort + s + ";";
-                        hoursSort = hoursSort + s + ";";
-                        numAsc = false;
+                        eidSort = eidSort + s + ";";
+                        eidAsc = false;
                     }
                     if (s.Equals("TotalScore_asc"))
                     {
-                        playerListEnum = playerListEnum.OrderBy(x => x.TotalScore);
-                        numSort = numSort + s + ";";
-                        hoursSort = hoursSort + s + ";";
-                        titleAsc = true;
+                        playerListEnum = playerListEnum.OrderBy(x => x.TotalScore());
+                        TotalScoreSort = TotalScoreSort + s + ";";
+                        totalAsc = true;
                     }
                     if (s.Equals("TotalScore_desc"))
                     {
-                        playerListEnum = playerListEnum.OrderByDescending(x => x.TotalScore);
-                        numSort = numSort + s + ";";
-                        hoursSort = hoursSort + s + ";";
-                        titleAsc = false;
+                        playerListEnum = playerListEnum.OrderByDescending(x => x.TotalScore());
+                        TotalScoreSort = TotalScoreSort + s + ";";
+                        totalAsc = false;
                     }
                     if (s.Equals("attendance_asc"))
                     {
                         playerListEnum = playerListEnum.OrderBy(x => x.attendanceScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = true;
+                        attendanceSort = attendanceSort + s + ";";
+                        attendanceAsc = true;
                     }
                     if (s.Equals("attendance_desc"))
                     {
                         playerListEnum = playerListEnum.OrderByDescending(x => x.attendanceScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = false;
+                        attendanceSort = attendanceSort + s + ";";
+                        attendanceAsc = false;
                     }
                     if (s.Equals("puzzle_asc"))
                     {
                         playerListEnum = playerListEnum.OrderBy(x => x.puzzleScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = true;
+                        puzzleSort = puzzleSort + s + ";";
+                        puzzleAsc = true;
                     }
                     if (s.Equals("puzzle_desc"))
                     {
                         playerListEnum = playerListEnum.OrderByDescending(x => x.puzzleScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = false;
+                        puzzleSort = puzzleSort + s + ";";
+                        puzzleAsc = false;
                     }
                     if (s.Equals("crossCurricular_asc"))
                     {
                         playerListEnum = playerListEnum.OrderBy(x => x.crossCurricularScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = true;
+                        crossCurricularSort = crossCurricularSort + s + ";";
+                        crossCurricularAsc = true;
                     }
                     if (s.Equals("crossCurricular_desc"))
                     {
                         playerListEnum = playerListEnum.OrderByDescending(x => x.crossCurricularScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = false;
+                        crossCurricularSort = crossCurricularSort + s + ";";
+                        crossCurricularAsc = false;
                     }
                     if (s.Equals("cooperation_asc"))
                     {
                         playerListEnum = playerListEnum.OrderBy(x => x.cooperationScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = true;
+                        cooperationSort = cooperationSort + s + ";";
+                        cooperationAsc = true;
                     }
                     if (s.Equals("cooperation_desc"))
                     {
                         playerListEnum = playerListEnum.OrderByDescending(x => x.cooperationScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = false;
+                        cooperationSort = cooperationSort + s + ";";
+                        cooperationAsc = false;
                     }
                     if (s.Equals("story_asc"))
                     {
                         playerListEnum = playerListEnum.OrderBy(x => x.storyScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = true;
+                        storySort = storySort + s + ";";
+                        storyAsc = true;
                     }
                     if (s.Equals("story_desc"))
                     {
                         playerListEnum = playerListEnum.OrderByDescending(x => x.storyScore);
-                        numSort = numSort + s + ";";
-                        titleSort = titleSort + s + ";";
-                        hoursAsc = false;
+                        storySort = storySort + s + ";";
+                        storyAsc = false;
                     }
                 }
 
-
-                return View(playerListEnum.ToPagedList(pageNumber, pageSize));
             }
 
+
+            
+            
+            ViewBag.currentSort = currentSort;
+            ViewBag.eidSort = eidSort;
+            ViewBag.TotalScoreSort = TotalScoreSort;
+            ViewBag.attendanceSort = attendanceSort;
+            ViewBag.puzzleSort = puzzleSort;
+            ViewBag.crossCurricularSort = crossCurricularSort;
+            ViewBag.cooperationSort = cooperationSort;
+            ViewBag.storySort = storySort;
+
+            ViewBag.eidAsc = eidAsc;
+            ViewBag.totalAsc = totalAsc;
+            ViewBag.attendanceAsc = attendanceAsc;
+            ViewBag.crossCurricularAsc = crossCurricularAsc;
+            ViewBag.cooperationAsc = cooperationAsc;
+            ViewBag.storyAsc = storyAsc;
+            ViewBag.puzzleAsc = puzzleAsc;
+
+
+
+
+            return View(playerListEnum.ToPagedList(pageNumber, pageSize));
         }
+
     }
+    
 }

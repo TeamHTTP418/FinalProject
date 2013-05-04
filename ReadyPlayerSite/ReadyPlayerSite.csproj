@@ -135,15 +135,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201305030112026_InitDatabase.cs" />
-    <Compile Include="Migrations\201305030112026_InitDatabase.Designer.cs">
-      <DependentUpon>201305030112026_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201305030113333_refactorFreezeInfoFrnKey.cs" />
-    <Compile Include="Migrations\201305030113333_refactorFreezeInfoFrnKey.Designer.cs">
-      <DependentUpon>201305030113333_refactorFreezeInfoFrnKey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminAction.cs" />
     <Compile Include="Models\FreezeInfo.cs" />
     <Compile Include="Models\IModel.cs" />
@@ -152,11 +143,33 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\IGenericRepository.cs" />
+    <Compile Include="Repository\IStorageContext.cs" />
+    <Compile Include="Repository\StorageContext.cs" />
     <Compile Include="ViewModels\LocalPasswordModel.cs" />
     <Compile Include="ViewModels\LoginModel.cs" />
     <Compile Include="ViewModels\RegisterModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Players.mdf" />
+    <Content Include="App_Data\Players_log.ldf">
+      <DependentUpon>Players.mdf</DependentUpon>
+    </Content>
+    <Content Include="Content\ReadyPlayerOne\Copper Gate Outline.png" />
+    <Content Include="Content\ReadyPlayerOne\Copper Gate.png" />
+    <Content Include="Content\ReadyPlayerOne\Copper Key Outline.png" />
+    <Content Include="Content\ReadyPlayerOne\Copper Key.png" />
+    <Content Include="Content\ReadyPlayerOne\Crystal Gate Outline.png" />
+    <Content Include="Content\ReadyPlayerOne\Crystal Gate.png" />
+    <Content Include="Content\ReadyPlayerOne\Crystal Key Outline.png" />
+    <Content Include="Content\ReadyPlayerOne\Crystal Key.png" />
+    <Content Include="Content\ReadyPlayerOne\Jade Gate Outline.png" />
+    <Content Include="Content\ReadyPlayerOne\Jade Gate.png" />
+    <Content Include="Content\ReadyPlayerOne\Jade Key Outline.png" />
+    <Content Include="Content\ReadyPlayerOne\Jade Key.png" />
+    <Content Include="Content\ReadyPlayerOne\Silver Quarter Outline.png" />
+    <Content Include="Content\ReadyPlayerOne\Silver Quarter.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -229,6 +242,30 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Accounts\ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Accounts\Login.cshtml" />
+    <Content Include="Views\Accounts\Manage.cshtml" />
+    <Content Include="Views\Accounts\Register.cshtml" />
+    <Content Include="Views\Admin\AdminActionDetailsPartial.cshtml" />
+    <Content Include="Views\Admin\AdminActionFormPartial.cshtml" />
+    <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ManagePlayer.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\LeaderBoard.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\User.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -238,40 +275,11 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Accounts\ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Accounts\Login.cshtml" />
-    <Content Include="Views\Accounts\Manage.cshtml" />
-    <Content Include="Views\Accounts\Register.cshtml" />
-    <Content Include="Views\Shared\LoginPartial.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\User.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\AdminActionFormPartial.cshtml" />
-    <Content Include="Views\Admin\ManagePlayer.cshtml" />
-    <Content Include="Views\Admin\AdminActionDetailsPartial.cshtml" />
-    <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201305030112026_InitDatabase.resx">
-      <DependentUpon>201305030112026_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201305030113333_refactorFreezeInfoFrnKey.resx">
-      <DependentUpon>201305030113333_refactorFreezeInfoFrnKey.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
