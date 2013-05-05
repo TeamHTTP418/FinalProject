@@ -31,6 +31,10 @@ namespace ReadyPlayerSite.Models
         public int value { get; set; }
         [DisplayName("Description")]
         public string description { get; set; }
+        [DisplayName("Unique ID Token")]
+        public string token { get; set; }
+        [DisplayName("Solution Keyword")]
+        public string solution { get; set; }
 
         //Milestone Options
         public bool isMilestone { get; set; }

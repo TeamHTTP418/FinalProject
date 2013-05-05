@@ -54,3 +54,12 @@
         @Html.Raw("Always Available")   
     }
 </p>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        @Html.DisplayNameFor(model => model.token)
+        @Html.Raw(": ")
+        @Html.DisplayFor(model => model.token)
+    </p>
+}
+

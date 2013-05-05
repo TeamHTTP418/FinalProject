@@ -7,44 +7,39 @@
         <li>
             @Html.LabelFor(model => model.name)
             @Html.EditorFor(model => model.name)
-            @Html.DisplayFor(model => model.name)
         </li>
         <li>
             @Html.LabelFor(model => model.type)
-            @Html.DropDownList("type", (SelectList)ViewBag.typeSelect);
-            @Html.DisplayFor(model => model.type)
+            @Html.DropDownList("type", (SelectList)ViewBag.typeSelect)
         </li>
         <li>
             @Html.LabelFor(model => model.value)
             @Html.EditorFor(model => model.value)
-            @Html.DisplayFor(model => model.value)
         </li>
         <li>
             @Html.LabelFor(model => model.start)
             @Html.TextBoxFor(model => model.start, new { id = "start" })
-            @Html.DisplayFor(model => model.start)
         </li>
         <li>
             @Html.LabelFor(model => model.end)
-            @Html.EditorFor(model => model.end, new { @class="datetimepicker" })
-            @Html.DisplayFor(model => model.end)
+            @Html.EditorFor(model => model.end, new { @class = "datetimepicker" })
         </li>
         <li>
             <p>
                 @Html.LabelFor(model => model.isMilestone)
-                @Html.CheckBoxFor(model => model.isMilestone,  new { id="milecheck", onchange="toggleOptions()" })
+                @Html.CheckBoxFor(model => model.isMilestone, new { id = "milecheck", onchange = "toggleOptions()" })
             </p>
+
             <fieldset id="milestoneoptions" class="hidden">
+                @Html.Hidden("numberCompleted", 0)
                 <legend>Milestone Data</legend>
                 <p>
                     @Html.LabelFor(model => model.bonusPoints)
                     @Html.EditorFor(model => model.bonusPoints)
-                    @Html.DisplayFor(model => model.bonusPoints)
                 </p>
                 <p>
                     @Html.LabelFor(model => model.maxCompletedBonus)
                     @Html.EditorFor(model => model.maxCompletedBonus)
-                    @Html.DisplayFor(model => model.maxCompletedBonus)
                 </p>
                 <p>
                     @Html.Raw("Select an Icon")
@@ -61,19 +56,16 @@
                 <p>
                     <img id="previewIcon" src="@Url.Content("~/Content/icons/defaulticon.png")" alt="Load a New Icon" title="Load a New Icon" height="42" width="42"/>
                 </p>
-                @Html.HiddenFor(model => model.numberCompleted, 0)
             </fieldset>
         </li>
         <li>
             @Html.LabelFor(model => model.description)
             @Html.EditorFor(model => model.description)
-            @Html.DisplayFor(model => model.description)
         </li>
     </ol>
 </fieldset>
 
 <script type="text/javascript">
-
     function toggleOptions() {
         if ($("#milecheck").is(":checked")) {
             $("#milestoneoptions").show()
@@ -82,7 +74,7 @@
         }
     }
     function updateIconPreview() {
-        $("#previewIcon").attr('src', "../Content/icons/" + $("#iconName").val());
+        $("#previewIcon").attr('src', "../../Content/icons/" + $("#iconName").val());
         document.getElementById("fileuploadfield").innerHTML =
                     document.getElementById("fileuploadfield").innerHTML;
     }
@@ -95,6 +87,4 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-   
- 
 </script>

@@ -136,6 +136,9 @@ namespace ReadyPlayerSite.Migrations
             string[] descriptions = { "Test Description", "Placeholder", "Auto Generated Description" };
             t.description = descriptions[rand.Next(0, descriptions.Length)];
             string[] icons = { "gate.png", "key.png", "quarter.png" };
+            t.token = Guid.NewGuid().ToString();
+            string[] keywords = { "Keyword", "Solution" };
+            t.solution = keywords[rand.Next(0, keywords.Length)];
             if (rand.Next(0, 2) == 0)
             {
                 t.isMilestone = true;
