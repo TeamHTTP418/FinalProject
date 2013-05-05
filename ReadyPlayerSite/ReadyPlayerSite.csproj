@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetCasClient">
+      <HintPath>..\packages\DotNetCasClient.1.0.1\lib\DotNetCasClient.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -135,6 +138,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201305040310350_InitDatabase.cs" />
+    <Compile Include="Migrations\201305040310350_InitDatabase.Designer.cs">
+      <DependentUpon>201305040310350_InitDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305050739210_AddTokenToTask.cs" />
+    <Compile Include="Migrations\201305050739210_AddTokenToTask.Designer.cs">
+      <DependentUpon>201305050739210_AddTokenToTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305051011045_AddSolutionToTask.cs" />
+    <Compile Include="Migrations\201305051011045_AddSolutionToTask.Designer.cs">
+      <DependentUpon>201305051011045_AddSolutionToTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminAction.cs" />
     <Compile Include="Models\FreezeInfo.cs" />
     <Compile Include="Models\IModel.cs" />
@@ -150,12 +166,9 @@
     <Compile Include="ViewModels\LocalPasswordModel.cs" />
     <Compile Include="ViewModels\LoginModel.cs" />
     <Compile Include="ViewModels\RegisterModel.cs" />
+    <Compile Include="ViewModels\TasksAndMilestones.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Players.mdf" />
-    <Content Include="App_Data\Players_log.ldf">
-      <DependentUpon>Players.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\ReadyPlayerOne\Copper Gate Outline.png" />
     <Content Include="Content\ReadyPlayerOne\Copper Gate.png" />
     <Content Include="Content\ReadyPlayerOne\Copper Key Outline.png" />
@@ -276,10 +289,30 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Tasks\Create.cshtml" />
+    <Content Include="Views\Tasks\Delete.cshtml" />
+    <Content Include="Views\Tasks\Details.cshtml" />
+    <Content Include="Views\Tasks\Edit.cshtml" />
+    <Content Include="Views\Tasks\Index.cshtml" />
+    <Content Include="Views\Tasks\TaskDetailsPartial.cshtml" />
+    <Content Include="Views\Tasks\TaskFormPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201305040310350_InitDatabase.resx">
+      <DependentUpon>201305040310350_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305050739210_AddTokenToTask.resx">
+      <DependentUpon>201305050739210_AddTokenToTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305051011045_AddSolutionToTask.resx">
+      <DependentUpon>201305051011045_AddSolutionToTask.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

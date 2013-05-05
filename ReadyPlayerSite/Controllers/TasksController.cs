@@ -59,16 +59,26 @@ namespace ReadyPlayerSite.Controllers
                 Player p = db.Players.Where(s => s.eid == eid).FirstOrDefault();
                 if (t != null && p != null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    if (t.isAvailable())
+                    {
+                        p.addTaskPoints(t);
+                        if (t.isMilestone)
+                        {
+                            p.milestonesCompleted.Add(t);
+                            db.Entry(t).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            p.tasksCompleted.Add(t);
+                        }
+                        db.Entry(p).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    }
+                    
                 } 
             }
-            return new HttpStatusCodeResult(HttpStatusCode.PreconditionFailed);
-        }
-
-        public ActionResult QRSubmit(object o = null)
-        {
-
-            return View();
+            return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
 
         public string getPublicKey()

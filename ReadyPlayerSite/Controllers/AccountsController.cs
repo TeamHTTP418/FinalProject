@@ -15,12 +15,15 @@ namespace ReadyPlayerSite.Controllers
         //
         // GET: /Account/Login
 
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult Login(string returnUrl)
         {
+            return RedirectToAction("Index", "Home");
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
+
 
         //
         // POST: /Account/Login
