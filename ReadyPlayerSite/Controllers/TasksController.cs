@@ -40,6 +40,14 @@ namespace ReadyPlayerSite.Controllers
         [Authorize(Roles="Administrator")]
         public ActionResult Create()
         {
+            var scoreTypeSelect = from TaskType e in Enum.GetValues(typeof(TaskType))
+                                  select new { Id = e, Name = e.ToString() };
+            ViewBag.typeSelect = new SelectList(scoreTypeSelect, "Id", "Name", null);
+
+            DirectoryInfo iconDirectory = new DirectoryInfo(Server.MapPath(@"../Content/icons"));
+            var icons = from FileInfo f in iconDirectory.GetFiles()
+                        select new { Id = Path.GetFileName(f.Name) };
+            ViewBag.iconSelect = new SelectList(icons, "Id", "Id");
             return View();
         }
 
@@ -48,9 +56,34 @@ namespace ReadyPlayerSite.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        public ActionResult Create(HttpPostedFileBase file, int num = 0)
+        public ActionResult Create(Task task, HttpPostedFileBase icon)
         {
-            
+            task.numberCompleted = 0;
+            if (ModelState.IsValid)
+            {
+                
+                
+                if (icon != null && icon.ContentLength > 0 && icon.ContentType.StartsWith("image/"))
+                {
+                    string iconName = Path.GetFileName(icon.FileName);
+                    string path = Path.Combine(Server.MapPath("~/Content/icons"), iconName);
+                    icon.SaveAs(path);
+                    task.iconName = iconName;
+                }
+                db.Tasks.Add(task);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            //Something was wrong, reshow the create view
+            var scoreTypeSelect = from TaskType e in Enum.GetValues(typeof(TaskType))
+                                  select new { Id = e, Name = e.ToString() };
+            ViewBag.typeSelect = new SelectList(scoreTypeSelect, "Id", "Name", null);
+
+            DirectoryInfo iconDirectory = new DirectoryInfo(Server.MapPath(@"../Content/icons"));
+            var icons = from FileInfo f in iconDirectory.GetFiles()
+                        select new { Id = Path.GetFileName(f.Name) };
+            ViewBag.iconSelect = new SelectList(icons, "Id", "Id");
             return View();
         }
 

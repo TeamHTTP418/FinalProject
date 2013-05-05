@@ -1,11 +1,11 @@
-﻿using ReadyPlayerSite.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.Mvc;
 using WebMatrix.WebData;
+using ReadyPlayerSite.ViewModels;
 
 namespace ReadyPlayerSite.Controllers
 {
