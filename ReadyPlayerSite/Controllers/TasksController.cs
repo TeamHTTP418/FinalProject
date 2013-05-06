@@ -9,6 +9,12 @@ using System.IO;
 using System.Data;
 using System.Net;
 using System.Security.Cryptography;
+using WebMatrix.WebData;
+using Gma.QrCodeNet.Encoding;
+using Gma.QrCodeNet.Encoding.Windows.Render;
+using System.Drawing;
+using System.Drawing.Imaging;
+
 
 namespace ReadyPlayerSite.Controllers
 {
@@ -39,6 +45,125 @@ namespace ReadyPlayerSite.Controllers
             return View(t);
         }
 
+        [Authorize]
+        public ActionResult Submit(int id = 0)
+        {
+            Task task = db.Tasks.Find(id);
+            if (task == null)
+            {
+                return HttpNotFound();
+            }
+
+            Player player = db.Players.Find(WebSecurity.CurrentUserId);
+
+            if (player.milestonesCompleted.Contains(task)
+                || player.tasksCompleted.Contains(task))
+            {
+                return View("Resubmitted");
+            }
+
+            return View(task);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Submit(int id, string response)
+        {
+            Task task = db.Tasks.Find(id);
+            if (task.solution == response)
+            {
+                Player player = db.Players.Find(WebSecurity.CurrentUserId);
+
+                if (player.milestonesCompleted.Contains(task)
+                    || player.tasksCompleted.Contains(task))
+                {
+                    return View("Resubmitted");
+                }
+                if (task.isAvailable())
+                {
+                    player.addTaskPoints(task);
+                    if (task.isMilestone)
+                    {
+                        player.milestonesCompleted.Add(task);
+                        db.Entry(task).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        player.tasksCompleted.Add(task);
+                    }
+                    db.Entry(player).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return View("TaskComplete");
+                }
+                else
+                {
+                    return View("TaskUnavailable");
+                }
+            }
+            return View("SubmitFailed", task);
+        }
+
+        [Authorize(Roles="Administrator")]
+        public FileResult getQRCode(int id = 0)
+        {
+            Task task = db.Tasks.Find(id);
+            if (task == null)
+            {
+                return null;
+            }
+            QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
+            QrCode qrCode = new QrCode();
+            qrEncoder.TryEncode("http://localhost:1558/Tasks/SubmitQR/" + task.token, out qrCode);
+
+            GraphicsRenderer renderer = new GraphicsRenderer(new FixedModuleSize(2, QuietZoneModules.Two), Brushes.Black, Brushes.White);
+
+            MemoryStream ms = new MemoryStream();
+
+            renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, ms);
+
+            var imageTemp = new Bitmap(ms);
+            
+            return File(ms.ToArray(), "image/png");
+        }
+
+        [Authorize]
+        public ActionResult SubmitQR(string token)
+        {
+            Task task = db.Tasks.Where(s => s.token == token).FirstOrDefault();
+            Player player = db.Players.Where(s => s.userID == WebSecurity.CurrentUserId).FirstOrDefault();
+            if (task == null && player != null)
+            {
+                return HttpNotFound();
+            }
+
+            if (player.milestonesCompleted.Contains(task)
+                    || player.tasksCompleted.Contains(task))
+            {
+                return View("Resubmitted");
+            }
+            if (task.isAvailable())
+            {
+                player.addTaskPoints(task);
+                if (task.isMilestone)
+                {
+                    player.milestonesCompleted.Add(task);
+                    db.Entry(task).State = EntityState.Modified;
+                }
+                else
+                {
+                    player.tasksCompleted.Add(task);
+                }
+                db.Entry(player).State = EntityState.Modified;
+                db.SaveChanges();
+                return View("TaskComplete");
+            }
+            else
+            {
+                return View("TaskUnavailable");
+            }
+        }
+
+        [HttpPost]
         public HttpStatusCodeResult AppSubmit(byte[] o = null)
         {
             RSACryptoServiceProvider rsa = getRSAProvider();
@@ -75,8 +200,8 @@ namespace ReadyPlayerSite.Controllers
                         db.SaveChanges();
                         return new HttpStatusCodeResult(HttpStatusCode.OK);
                     }
-                    
-                } 
+
+                }
             }
             return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
@@ -86,7 +211,7 @@ namespace ReadyPlayerSite.Controllers
             return getRSAProvider().ToXmlString(false);
         }
 
-        public RSACryptoServiceProvider getRSAProvider()
+        private RSACryptoServiceProvider getRSAProvider()
         {
             CspParameters cspParams = new CspParameters(1);
             cspParams.KeyContainerName = "ReadyPlayerSiteContainer";
@@ -104,7 +229,7 @@ namespace ReadyPlayerSite.Controllers
                                   select new { Id = e, Name = e.ToString() };
             ViewBag.typeSelect = new SelectList(scoreTypeSelect, "Id", "Name", null);
 
-            DirectoryInfo iconDirectory = new DirectoryInfo(Server.MapPath(@"../Content/icons"));
+            DirectoryInfo iconDirectory = new DirectoryInfo(Server.MapPath(@"~/Content/icons"));
             var icons = from FileInfo f in iconDirectory.GetFiles()
                         select new { Id = Path.GetFileName(f.Name) };
             ViewBag.iconSelect = new SelectList(icons, "Id", "Id");
@@ -137,7 +262,7 @@ namespace ReadyPlayerSite.Controllers
                 task.token = Guid.NewGuid().ToString();
                 db.Tasks.Add(task);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = task.ID });
             }
 
             //Something was wrong, reshow the create view

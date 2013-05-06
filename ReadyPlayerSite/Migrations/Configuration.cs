@@ -137,7 +137,7 @@ namespace ReadyPlayerSite.Migrations
             t.description = descriptions[rand.Next(0, descriptions.Length)];
             string[] icons = { "gate.png", "key.png", "quarter.png" };
             t.token = Guid.NewGuid().ToString();
-            string[] keywords = { "Keyword", "Solution" };
+            string[] keywords = { "Solution" };
             t.solution = keywords[rand.Next(0, keywords.Length)];
             if (rand.Next(0, 2) == 0)
             {

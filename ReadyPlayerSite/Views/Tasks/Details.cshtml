@@ -15,6 +15,9 @@
     <div class="liquid_100">
             @Html.Partial("TaskDetailsPartial", Model)
         <p>
+            @Html.ActionLink("Get QR Code Image For This Task", "getQRCode", new { id = Model.ID })
+        </p>
+        <p>
             @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
             @Html.ActionLink("Back to List", "Index")
         </p>
