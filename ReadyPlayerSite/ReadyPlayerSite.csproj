@@ -42,6 +42,9 @@
     <Reference Include="DotNetCasClient">
       <HintPath>..\packages\DotNetCasClient.1.0.1\lib\DotNetCasClient.dll</HintPath>
     </Reference>
+    <Reference Include="Gma.QrCodeNet.Encoding">
+      <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net45\Gma.QrCodeNet.Encoding.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -296,6 +299,11 @@
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Tasks\TaskDetailsPartial.cshtml" />
     <Content Include="Views\Tasks\TaskFormPartial.cshtml" />
+    <Content Include="Views\Tasks\Submit.cshtml" />
+    <Content Include="Views\Tasks\TaskComplete.cshtml" />
+    <Content Include="Views\Tasks\SubmitFailed.cshtml" />
+    <Content Include="Views\Tasks\Resubmitted.cshtml" />
+    <Content Include="Views\Tasks\TaskUnavailable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
