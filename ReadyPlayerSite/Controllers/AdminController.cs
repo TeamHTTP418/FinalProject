@@ -34,6 +34,16 @@ namespace ReadyPlayerSite.Controllers
             return View(action);
         }
 
+        public ActionResult ManagePlayerByEid(string eid)
+        {
+            Player player = db.Players.Where(s => s.eid == eid).FirstOrDefault();
+            if (player == null)
+            {
+                return HttpNotFound();
+            }
+            return RedirectToAction("ManagePlayer", new { id = player.ID });
+        }
+
         public ActionResult ManagePlayer(int id = 0)
         {
             Player player = db.Players.Find(id);

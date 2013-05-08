@@ -130,7 +130,7 @@ namespace ReadyPlayerSite.Controllers
         public ActionResult SubmitQR(string token)
         {
             Task task = db.Tasks.Where(s => s.token == token).FirstOrDefault();
-            Player player = db.Players.Where(s => s.userID == WebSecurity.CurrentUserId).FirstOrDefault();
+            Player player = db.Players.Find(WebSecurity.CurrentUserId);
             if (task == null && player != null)
             {
                 return HttpNotFound();

@@ -18,8 +18,8 @@ namespace ReadyPlayerSite.Models
         {
             modelBuilder.Entity<Player>().HasMany(p => p.tasksCompleted).WithMany().Map(pt => pt.ToTable("PlayerToTasks"));
             modelBuilder.Entity<Player>().HasMany(p => p.milestonesCompleted).WithMany().Map(pm => pm.ToTable("PlayerToMilestones"));
-            modelBuilder.Entity<Player>().HasOptional(p => p.freezeInfo).WithRequired(fi => fi.player); 
-            modelBuilder.Entity<Player>().HasRequired(p => p.user);
+            modelBuilder.Entity<Player>().HasOptional(p => p.freezeInfo).WithRequired(fi => fi.player);
+            modelBuilder.Entity<Player>().HasRequired(p => p.user).WithOptional();
             modelBuilder.Entity<Player>().HasMany(p => p.adminActions).WithRequired(aa => aa.player).HasForeignKey(aa => aa.playerID).WillCascadeOnDelete(false);
             modelBuilder.Entity<AdminAction>().HasRequired(aa => aa.user).WithMany().HasForeignKey(s => s.userID).WillCascadeOnDelete(false);
          

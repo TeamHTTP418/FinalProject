@@ -1,5 +1,21 @@
 ﻿@model List<ReadyPlayerSite.Models.AdminAction>
 
+<h3>Admin Options</h3>
+<p>
+    @Html.ActionLink("Create a New Task", "Create", "Tasks")
+</p>
+<p>
+
+</p>
+@using (Html.BeginForm("ManagePlayerByEid", "Admin", FormMethod.Get, new { enctype = @"multipart/form-data" }))
+{
+    <p>
+        @Html.TextBox("eid", "User EID")
+        <input type="submit" value="Manage User By Eid" />
+    </p>
+}
+<br />
+<h1>Administration Log</h1>
 @if (Model.Count <= 0)
 {
     <h3>No Administration Actions Performed</h3>
@@ -32,7 +48,7 @@ else
                     @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.username), "../Players/Details", new { id = item.playerID })
                 </td>
                 <td>
-                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.realName), "../Users/Details", new { id = item.player.userID })
+                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.realName), "../Users/Details", new { id = item.player.ID })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.type)
@@ -41,12 +57,20 @@ else
                     @Html.DisplayFor(modelItem => item.when)
                 </td>
                 <td>
-                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.user.username), "../Users/Details", new { id = item.userID })
+                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.user.username), "../Users/Details", new { id = item.ID })
                 </td>
                 <td>
-                    @Html.ActionLink("View Details", "Details", new { id = item.ID } )
+                    @Html.ActionLink("View Details", "Details", new { id = item.ID })
                 </td>
             </tr>
         }
     </table>   
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        function manageUser(eid) {
+            window.location = "Admin/ManagePlayerByEid/?eid=" + eid;
+        }
+    </script>
 }

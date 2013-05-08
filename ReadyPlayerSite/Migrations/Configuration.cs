@@ -58,8 +58,7 @@ namespace ReadyPlayerSite.Migrations
             List<User> users = context.Users.ToList();
             foreach (User u in users)
             {
-                int i = 1;
-                Player player = createPlayer(u, rand, i++);
+                Player player = createPlayer(u, rand);
                 context.Players.Add(player);
             }
             context.SaveChanges();
@@ -95,12 +94,11 @@ namespace ReadyPlayerSite.Migrations
 
         }
 
-        private static Player createPlayer(User user, Random rand, int i = 0)
+        private static Player createPlayer(User user, Random rand)
         {
             
             Player player = new Player
             {
-                ID = i,
                 eid = rand.Next(100000000, 999999999).ToString(),
                 user = user,
                 attendanceScore = rand.Next(0, 11),

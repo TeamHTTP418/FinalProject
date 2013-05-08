@@ -21,10 +21,13 @@
                     <ul id="menu">
                         <li>@Html.ActionLink("Home", "Leader Board", "Home")</li>
                         <li>@Html.ActionLink("Leader Board", "Leader Board", "Home")</li>
+                        <li>@Html.ActionLink("View Tasks", "Index", "Tasks")</li>
                         @if (User.IsInRole("Administrator"))
                         { 
                             <li>@Html.ActionLink("User Profiles", "Index", "Users")</li>
                             <li>@Html.ActionLink("Administration", "Index", "Admin")</li>
+                        }else{
+                            <li>@Html.ActionLink("Your Profile", "Details", "Users", new { id = WebSecurity.CurrentUserId}, null)</li>   
                         }
                     </ul>
                 </nav>

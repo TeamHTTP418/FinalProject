@@ -14,8 +14,6 @@ namespace ReadyPlayerSite.Models
         [ScaffoldColumn(false)]
         public override int ID { get; set; }
 
-        [ScaffoldColumn(false)]
-        public int userID { get; set; }
         public virtual User user { get; set; }
 
         [DisplayName("EID")]

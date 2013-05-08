@@ -7,26 +7,68 @@ using System.Web.Mvc;
 using WebMatrix.WebData;
 using ReadyPlayerSite.ViewModels;
 using DotNetCasClient;
+using ReadyPlayerSite.Models;
+using System.Text.RegularExpressions;
 
 namespace ReadyPlayerSite.Controllers
 {
 
     public class AccountsController : Controller
     {
+        private PlayerDbContext db = new PlayerDbContext();
         //
         // GET: /Account/Login
 
         [Authorize]
         public ActionResult Login(string returnUrl)
         {
+            User user = db.Users.Where(u => u.username == WebSecurity.CurrentUserName).FirstOrDefault();
+            if (user == null)
+            {
+                user = new User { username = WebSecurity.CurrentUserName, realName = "Real Name" };
+                db.Users.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                Player player = db.Players.Find(user.ID);
+                if (player == null)
+                {
+                    return RedirectToAction("Create");
+                }
+            }
             return RedirectToAction("Index", "Tasks");
+        }
+        [Authorize]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Create(string realname, string eid, bool acceptterms = false)
+        {
+
+            if (realname.Length > 2 && Regex.Match(eid, @"\d{9}").Success)
+            {
+                User user = db.Users.Find(WebSecurity.CurrentUserId);
+                user.realName = realname;
+                db.Entry(user).State = System.Data.EntityState.Modified;
+                Player player = new Player { user = user, eid = eid };
+                db.Players.Add(player);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Tasks");
+            }
+            return View();
         }
 
         //
         // POST: /Account/LogOff
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult LogOff()
         {
             CasAuthentication.SingleSignOut();

@@ -63,7 +63,12 @@ else
                         @Html.Raw("--/--/---- --:--:--")   
                     }
                 </th>
-                <th></th>
+                <th>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { item.ID })
+                    }
+                </th>
             </tr>
         }
     </table>
@@ -144,7 +149,12 @@ else
                 <th>
                     <img src="@Url.Content("~/Content/icons/" + item.iconName)" alt="@item.name" title="@item.name" height="42" width="42"/>
                 </th>
-                <th></th>
+                <th>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { item.ID })
+                    }
+                </th>
             </tr>
             
         }
