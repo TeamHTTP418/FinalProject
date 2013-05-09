@@ -1,0 +1,21 @@
+﻿@model ReadyPlayerSite.Models.Task
+
+@{
+    ViewBag.Title = "Complete Task " + Model.name;
+}
+<div class="contentbox">
+    <div class="liquid_100">
+        @using (@Html.BeginForm("Submit", "Tasks", FormMethod.Post))
+        {
+            <p>
+                @Html.Raw("Solution: ")
+               @Html.TextBox("response")
+            </p>
+            @Html.Hidden("id", Model.ID)
+            <p>
+                <input type="submit" value="Complete Task" />
+            </p>
+        }
+
+    </div>
+</div>

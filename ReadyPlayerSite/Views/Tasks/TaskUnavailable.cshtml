@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Task Unavailable";
+}
+
+<h2>The task could not be completed.</h2>
+<p>
+    This could happen because a task has not began yet or has expired.
+</p>
+
+<p>
+    @Html.ActionLink("Go Back to Task Index", "Index") |
+    @Html.ActionLink("Go to your Profile Page", "Index", "User")
+</p>

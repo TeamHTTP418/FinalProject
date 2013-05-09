@@ -3,7 +3,7 @@ namespace ReadyPlayerSite.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDatabase : DbMigration
+    public partial class InitialDatabase : DbMigration
     {
         public override void Up()
         {
@@ -21,8 +21,7 @@ namespace ReadyPlayerSite.Migrations
                 "dbo.Players",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        userID = c.Int(nullable: false),
+                        ID = c.Int(nullable: false),
                         eid = c.String(),
                         attendanceScore = c.Int(nullable: false),
                         puzzleScore = c.Int(nullable: false),
@@ -32,8 +31,8 @@ namespace ReadyPlayerSite.Migrations
                         freezeInfoID = c.Int(),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Users", t => t.userID, cascadeDelete: true)
-                .Index(t => t.userID);
+                .ForeignKey("dbo.Users", t => t.ID)
+                .Index(t => t.ID);
             
             CreateTable(
                 "dbo.Tasks",
@@ -46,6 +45,8 @@ namespace ReadyPlayerSite.Migrations
                         type = c.Int(nullable: false),
                         value = c.Int(nullable: false),
                         description = c.String(),
+                        token = c.String(),
+                        solution = c.String(),
                         isMilestone = c.Boolean(nullable: false),
                         bonusPoints = c.Int(),
                         numberCompleted = c.Int(),
@@ -127,7 +128,7 @@ namespace ReadyPlayerSite.Migrations
             DropIndex("dbo.FreezeInfoes", new[] { "ID" });
             DropIndex("dbo.AdminActions", new[] { "playerID" });
             DropIndex("dbo.AdminActions", new[] { "userID" });
-            DropIndex("dbo.Players", new[] { "userID" });
+            DropIndex("dbo.Players", new[] { "ID" });
             DropForeignKey("dbo.PlayerToTasks", "Task_ID", "dbo.Tasks");
             DropForeignKey("dbo.PlayerToTasks", "Player_ID", "dbo.Players");
             DropForeignKey("dbo.PlayerToMilestones", "Task_ID", "dbo.Tasks");
@@ -135,7 +136,7 @@ namespace ReadyPlayerSite.Migrations
             DropForeignKey("dbo.FreezeInfoes", "ID", "dbo.Players");
             DropForeignKey("dbo.AdminActions", "playerID", "dbo.Players");
             DropForeignKey("dbo.AdminActions", "userID", "dbo.Users");
-            DropForeignKey("dbo.Players", "userID", "dbo.Users");
+            DropForeignKey("dbo.Players", "ID", "dbo.Users");
             DropTable("dbo.PlayerToTasks");
             DropTable("dbo.PlayerToMilestones");
             DropTable("dbo.FreezeInfoes");

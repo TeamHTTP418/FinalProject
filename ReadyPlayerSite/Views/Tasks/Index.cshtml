@@ -1,0 +1,164 @@
+﻿@model ReadyPlayerSite.ViewModels.TasksAndMilestones
+@using ReadyPlayerSite.Models;
+@{
+    ViewBag.Title = "Task Index";
+}
+
+@if (Model.tasks.Count <= 0)
+{
+    <h3>No Tasks Found</h3>
+}
+else
+{
+    
+    <h2 class="tableheader">Tasks</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tasks.First().name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tasks.First().type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tasks.First().value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tasks.First().start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tasks.First().end)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.tasks)
+        {
+            <tr>
+                <th>
+                    @Html.ActionLink(""+@Html.DisplayFor(model => item.name), "Details", new { id = item.ID} )
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.type)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.value)
+                </th>
+                <th>
+                    @if (item.start.HasValue)
+                    {
+                        @Html.DisplayFor(model => item.start)
+                    }
+                    else
+                    {
+                        @Html.Raw("--/--/---- --:--:--")  
+                    }
+                </th>
+                <th>
+                    @if (item.end.HasValue)
+                    {
+                        @Html.DisplayFor(model => item.end)
+                    }
+                    else
+                    {
+                        @Html.Raw("--/--/---- --:--:--")   
+                    }
+                </th>
+                <th>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { item.ID })
+                    }
+                </th>
+            </tr>
+        }
+    </table>
+}
+@if (Model.milestones.Count <= 0)
+{
+    <h3>No Milestones Found</h3>
+}
+else
+{
+    <h2 class="tableheader">Milestones</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().end)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().bonusPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().maxCompletedBonus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.milestones.First().iconName)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (Task item in Model.milestones)
+        {
+            <tr>
+                <th>
+                    @Html.ActionLink(""+@Html.DisplayFor(model => item.name), "Details", new { id = item.ID} )
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.type)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.value)
+                </th>
+                <th>
+                    @if (item.start.HasValue)
+                    {
+                        @Html.DisplayFor(model => item.start)
+                    }
+                    else
+                    {
+                        @Html.Raw("--/--/---- --:--:--")  
+                    }
+                </th>
+                <th>
+                    @if (item.end.HasValue)
+                    {
+                        @Html.DisplayFor(model => item.end)
+                    }
+                    else
+                    {
+                        @Html.Raw("--/--/---- --:--:--")   
+                    }
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.bonusPoints)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.maxCompletedBonus)
+                </th>
+                <th>
+                    <img src="@Url.Content("~/Content/icons/" + item.iconName)" alt="@item.name" title="@item.name" height="42" width="42"/>
+                </th>
+                <th>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { item.ID })
+                    }
+                </th>
+            </tr>
+            
+        }
+
+    </table>
+    
+}

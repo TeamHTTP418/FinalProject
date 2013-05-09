@@ -1,0 +1,33 @@
+﻿@model ReadyPlayerSite.Models.Task
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="contentbox">
+    <div class="liquid_100">
+        @using (Html.BeginForm("Edit", "Tasks", FormMethod.Post, new { enctype = @"multipart/form-data" }))
+        {
+            @Html.Partial("TaskFormPartial", Model)
+            <p>
+                <input type="submit" value="Submit Task" />
+            </p>
+        }
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/datetimeui")
+    <script type="text/javascript">
+        $('#start').datetimepicker(options)
+        $('#end').datetimepicker(options)
+        toggleOptions();
+        updateIconPreview();
+    </script>
+}

@@ -10,11 +10,10 @@ namespace ReadyPlayerSite.Models
 {
     public class Player : IModel
     {
+        private static readonly object mileLock = new object();
         [ScaffoldColumn(false)]
         public override int ID { get; set; }
 
-        [ScaffoldColumn(false)]
-        public int userID { get; set; }
         public virtual User user { get; set; }
 
         [DisplayName("EID")]
@@ -99,14 +98,38 @@ namespace ReadyPlayerSite.Models
 
         public bool addTaskPoints(Task task)
         {
+            bool result = false;
             if (freezeInfoID.HasValue)
             {
-                return addHeldPoints(task.type, task.value);
+                result =  addHeldPoints(task.type, task.value);
+                if (result && task.isMilestone && task.numberCompleted < task.maxCompletedBonus)
+                {
+                    lock (mileLock)
+                    {
+                        if (task.numberCompleted < task.maxCompletedBonus)
+                        {
+                            result = addHeldPoints(task.type, task.bonusPoints.Value);
+                            task.numberCompleted++;
+                        }
+                    }
+                }
             }
             else
             {
-                return addPoints(task.type, task.value);
+                result = addPoints(task.type, task.value);
+                if (result && task.isMilestone && task.numberCompleted < task.maxCompletedBonus)
+                {
+                    lock (mileLock)
+                    {
+                        if (task.numberCompleted < task.maxCompletedBonus)
+                        {
+                            result = addPoints(task.type, task.bonusPoints.Value);
+                            task.numberCompleted++;
+                        }
+                    }
+                }
             }
+            return result;
         }
 
         public bool isFrozen()

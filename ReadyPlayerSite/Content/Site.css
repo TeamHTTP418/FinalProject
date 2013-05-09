@@ -64,6 +64,14 @@ body {
         color: #FFFFFF;
     }
 
+.tableheader {
+    text-align: center;
+}
+
+.hidden {
+    display:none;
+}
+
 .contentbox {
     background: #FFFFFF;
     padding: .25em 0 2em 2%;

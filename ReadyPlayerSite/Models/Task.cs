@@ -25,9 +25,16 @@ namespace ReadyPlayerSite.Models
         public DateTime? start { get; set; }
         [DisplayName("End Date")]
         public DateTime? end { get; set; }
+        [DisplayName("Type")]
         public TaskType type { get; set; }
         [DisplayName("Point Value")]
         public int value { get; set; }
+        [DisplayName("Description")]
+        public string description { get; set; }
+        [DisplayName("Unique ID Token")]
+        public string token { get; set; }
+        [DisplayName("Solution Keyword")]
+        public string solution { get; set; }
 
         //Milestone Options
         public bool isMilestone { get; set; }
@@ -36,6 +43,7 @@ namespace ReadyPlayerSite.Models
         public int? numberCompleted { get; set; }
         [DisplayName("Number of Bonus Awards")]
         public int? maxCompletedBonus { get; set; }
+        [DisplayName("Icon")]
         public string iconName { get; set; }
 
 

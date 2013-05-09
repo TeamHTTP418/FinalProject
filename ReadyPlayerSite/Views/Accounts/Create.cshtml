@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@using (@Html.BeginForm())
+{
+    
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Account Details</legend>
+        <p>
+            @Html.Raw("Player: " + @WebSecurity.CurrentUserName)
+        </p>
+        <p>
+            @Html.Raw("Real Name")
+            @Html.TextBox("realname")
+        </p>
+        <p>
+            @Html.TextBox("eid", "Your EID")
+        </p>
+        <p>
+            @Html.Raw("Allow this website to publish your personal information? (EID, Scores related to ReadyPlayerSite)\n*Required*")
+        </p>
+        <p>
+            @Html.CheckBox("acceptterms", false)
+        </p>
+        <input type="submit" />
+    </fieldset>
+}
