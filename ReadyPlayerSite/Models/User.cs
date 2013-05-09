@@ -20,9 +20,5 @@ namespace ReadyPlayerSite.Models
         [StringLength(100, MinimumLength = 3, ErrorMessage = "The username must be between 3 and 100 characters")]
         public String username { get; set; }
 
-        [DisplayName("Real Name")]
-        [Required(ErrorMessage = "Your real name is required")]
-        [StringLength(100, ErrorMessage = "The real name field cannot be longer than 100 characters")]
-        public String realName { get; set; }
     }
 }

@@ -1,0 +1,5 @@
+﻿@model ReadyPlayerSite.Models.Task
+
+<p>
+    @Html.ActionLink("" + @Html.DisplayFor(model => model.name), "Details", "Tasks", new { id = Model.ID})
+</p>

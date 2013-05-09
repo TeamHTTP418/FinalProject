@@ -25,7 +25,7 @@ namespace ReadyPlayerSite.Controllers
             User user = db.Users.Where(u => u.username == WebSecurity.CurrentUserName).FirstOrDefault();
             if (user == null)
             {
-                user = new User { username = WebSecurity.CurrentUserName, realName = "Real Name" };
+                user = new User { username = WebSecurity.CurrentUserName };
                 db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Create");
@@ -48,15 +48,12 @@ namespace ReadyPlayerSite.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Create(string realname, string eid, bool acceptterms = false)
+        public ActionResult Create(bool acceptterms = false)
         {
-
-            if (realname.Length > 2 && Regex.Match(eid, @"\d{9}").Success)
+            if (acceptterms)
             {
                 User user = db.Users.Find(WebSecurity.CurrentUserId);
-                user.realName = realname;
-                db.Entry(user).State = System.Data.EntityState.Modified;
-                Player player = new Player { user = user, eid = eid };
+                Player player = new Player { user = user };
                 db.Players.Add(player);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Tasks");
@@ -64,16 +61,19 @@ namespace ReadyPlayerSite.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/LogOff
-
-        [HttpPost]
-        [AllowAnonymous]
+        [HttpGet]
         public ActionResult LogOff()
         {
-            CasAuthentication.SingleSignOut();
+            return RedirectToAction("Login", "Accounts"); //TODO: URL Change
+        }
 
-            return RedirectToAction("Index", "Users"); //TODO: URL Change
+        //
+        // POST: /Account/LogOff
+        [HttpPost]
+        public ActionResult LogOff(string validation)
+        {
+            CasAuthentication.SingleSignOut();
+            return RedirectToAction("Index", "Tasks"); //TODO: URL Change
         }
 
         #region Helpers

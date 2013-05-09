@@ -34,9 +34,9 @@ namespace ReadyPlayerSite.Controllers
             return View(action);
         }
 
-        public ActionResult ManagePlayerByEid(string eid)
+        public ActionResult ManagePlayerByUsername(string username)
         {
-            Player player = db.Players.Where(s => s.eid == eid).FirstOrDefault();
+            Player player = db.Players.Where(s => s.user.username == username).FirstOrDefault();
             if (player == null)
             {
                 return HttpNotFound();

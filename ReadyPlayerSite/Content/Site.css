@@ -64,6 +64,12 @@ body {
         color: #FFFFFF;
     }
 
+.icon {
+    display: block;
+    height: 42px;
+    width: 42px;
+}
+
 .tableheader {
     text-align: center;
 }

@@ -35,22 +35,19 @@ namespace ReadyPlayerSite.Migrations
             {
                 WebSecurity.CreateUserAndAccount(
                     "admin",
-                    "admin",
-                    new { realName = "Administrator" });
+                    "admin");
             }
             if (!Roles.GetRolesForUser("admin").Contains("Administrator"))
             {
                 Roles.AddUserToRole("admin", "Administrator");
             }
-            string[] names = { "TrollBot", "John Smith", "American Dream", "Astoria Whynot", "Ghosty Mc-JimBob" };
             for (int i = 0; i < 20; i++)
             {
                 if (!WebSecurity.UserExists("player" + i))
                 {
                     WebSecurity.CreateUserAndAccount(
                         "player" + i,
-                        "testpassword",
-                        new { realName = names[rand.Next(0, names.Length)] });
+                        "testpassword");
                 }
             }
 
@@ -72,8 +69,7 @@ namespace ReadyPlayerSite.Migrations
 
             var tasks_and_milestones = context.Tasks.ToList().GroupBy(t => t.isMilestone).OrderBy(g => g.Key).Select(g => g.ToList()).ToArray();
             Player first = context.Players.First();
-            first.tasksCompleted = new List<Task>();
-            first.milestonesCompleted = new List<Task>();
+            first.tasksCompleted = new List<PlayerToTask>();
             first.puzzleScore = 0;
             first.storyScore = 0;
             first.attendanceScore = 0;
@@ -81,12 +77,12 @@ namespace ReadyPlayerSite.Migrations
             first.crossCurricularScore = 0;
             foreach (Task t in tasks_and_milestones[0])
             {
-                first.tasksCompleted.Add(t);
+                first.tasksCompleted.Add(PlayerToTask.GetPTT(first, t));
                 first.addTaskPoints(t);
             }
             foreach (Task m in tasks_and_milestones[1])
             {
-                first.milestonesCompleted.Add(m);
+                first.tasksCompleted.Add(PlayerToTask.GetPTT(first, m));
                 first.addTaskPoints(m);
             }
             context.SaveChanges();
@@ -99,7 +95,6 @@ namespace ReadyPlayerSite.Migrations
             
             Player player = new Player
             {
-                eid = rand.Next(100000000, 999999999).ToString(),
                 user = user,
                 attendanceScore = rand.Next(0, 11),
                 puzzleScore = rand.Next(0, 11),

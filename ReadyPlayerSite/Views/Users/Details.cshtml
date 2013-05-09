@@ -1,29 +1,194 @@
-﻿@model ReadyPlayerSite.Models.User
+﻿@model ReadyPlayerSite.ViewModels.PlayerDetails
+@using ReadyPlayerSite.Models
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "User Profile";
 }
 
-<h2>Details</h2>
-
 <fieldset>
-    <legend>User</legend>
+    <legend>@Html.DisplayFor(model => model.player.user.username)'s Profile</legend>
+    <hr />
+    @if (Model.player.isFrozen())
+    {
+        <h3>This Account Has Been Frozen By The Administrator</h3>
+        <p>Any points earned will be held until the freeze has been lifted.</p>
+        <hr />
+    }
+    <table>
+        <tr>
+            <th>
+                @Html.Raw("Total Points")
+            </th>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.player.attendanceScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.player.puzzleScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.player.cooperationScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.player.crossCurricularScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.player.storyScore)
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>
+                @Model.player.totalScore()
+            </td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(model => model.player.attendanceScore)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.player.puzzleScore)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.player.cooperationScore)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.player.crossCurricularScore)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.player.storyScore)
+            </td>
+            <td>
+                @Html.Raw("Current Points")
+            </td>
+        </tr>
+        @if (Model.player.isFrozen())
+        {
+            <tr>
+                <td>
+                    @Model.player.freezeInfo.totalFrozenPoints()
+                </td>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(model => model.player.freezeInfo.attendanceScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.player.freezeInfo.puzzleScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.player.freezeInfo.cooperationScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.player.freezeInfo.crossCurricularScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.player.freezeInfo.storyScore)
+                </td>
+                <td>
+                    @Html.Raw("Frozen Points")
+                </td>
+            </tr>
+        }
+    </table>
+    <hr />
+    <p>
+        @Html.Raw("Milestones Completed")
+    </p>
+    @if (Model.milestones.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.milestones.First().task.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.milestones.First().task.type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.milestones.First().task.value)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.milestones.First().when)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.milestones.First().task.iconName)
+                </th>
+            </tr>
+            @foreach (PlayerToTask item in Model.milestones)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("" + @Html.DisplayFor(model => item.task.name), "Details", "Tasks", new {id = item.task.ID}, null)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.task.type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.task.value)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.when)
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/icons/" + item.task.iconName)" alt="@item.task.name" title="@item.task.name" height="42" width="42"/>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        @Html.Raw("No Milestones Completed")   
+    }
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.username)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.username)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.realName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.realName)
-    </div>
+    <p>
+        @Html.Raw("Tasks Completed")
+    </p>
+    @if (Model.tasks.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.tasks.First().task.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tasks.First().task.type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tasks.First().task.value)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tasks.First().when)
+                </th>
+            </tr>
+            @foreach (PlayerToTask item in Model.tasks)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.task.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.task.type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.task.value)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.when)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        @Html.Raw("No Tasks Completed")   
+    }
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @if (User.IsInRole("Administrator"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.player.ID }) 
+        @Html.Raw("|")
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>

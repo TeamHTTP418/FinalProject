@@ -56,8 +56,7 @@ namespace ReadyPlayerSite.Controllers
 
             Player player = db.Players.Find(WebSecurity.CurrentUserId);
 
-            if (player.milestonesCompleted.Contains(task)
-                || player.tasksCompleted.Contains(task))
+            if (player.tasksCompleted.Where(ptt => ptt.taskID == task.ID).Count() > 0)
             {
                 return View("Resubmitted");
             }
@@ -74,8 +73,7 @@ namespace ReadyPlayerSite.Controllers
             {
                 Player player = db.Players.Find(WebSecurity.CurrentUserId);
 
-                if (player.milestonesCompleted.Contains(task)
-                    || player.tasksCompleted.Contains(task))
+                if (player.tasksCompleted.Where(ptt => ptt.taskID == task.ID).Count() > 0)
                 {
                     return View("Resubmitted");
                 }
@@ -84,12 +82,12 @@ namespace ReadyPlayerSite.Controllers
                     player.addTaskPoints(task);
                     if (task.isMilestone)
                     {
-                        player.milestonesCompleted.Add(task);
+                        player.tasksCompleted.Add(PlayerToTask.GetPTT(player, task));
                         db.Entry(task).State = EntityState.Modified;
                     }
                     else
                     {
-                        player.tasksCompleted.Add(task);
+                        player.tasksCompleted.Add(PlayerToTask.GetPTT(player, task));
                     }
                     db.Entry(player).State = EntityState.Modified;
                     db.SaveChanges();
@@ -113,7 +111,7 @@ namespace ReadyPlayerSite.Controllers
             }
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
             QrCode qrCode = new QrCode();
-            qrEncoder.TryEncode("http://localhost:1558/Tasks/SubmitQR/" + task.token, out qrCode);
+            qrEncoder.TryEncode("http://localhost:1558/Tasks/SubmitQR/?token=" + task.token, out qrCode);
 
             GraphicsRenderer renderer = new GraphicsRenderer(new FixedModuleSize(2, QuietZoneModules.Two), Brushes.Black, Brushes.White);
 
@@ -136,8 +134,7 @@ namespace ReadyPlayerSite.Controllers
                 return HttpNotFound();
             }
 
-            if (player.milestonesCompleted.Contains(task)
-                    || player.tasksCompleted.Contains(task))
+            if (player.tasksCompleted.Where(ptt => ptt.taskID == task.ID).Count() > 0)
             {
                 return View("Resubmitted");
             }
@@ -146,12 +143,12 @@ namespace ReadyPlayerSite.Controllers
                 player.addTaskPoints(task);
                 if (task.isMilestone)
                 {
-                    player.milestonesCompleted.Add(task);
+                    player.tasksCompleted.Add(PlayerToTask.GetPTT(player, task));
                     db.Entry(task).State = EntityState.Modified;
                 }
                 else
                 {
-                    player.tasksCompleted.Add(task);
+                    player.tasksCompleted.Add(PlayerToTask.GetPTT(player, task));
                 }
                 db.Entry(player).State = EntityState.Modified;
                 db.SaveChanges();
@@ -179,9 +176,9 @@ namespace ReadyPlayerSite.Controllers
             if (arguments.Length == 2)
             {
                 string token = arguments[0];
-                string eid = arguments[1];
+                string username = arguments[1];
                 Task t = db.Tasks.Where(s => s.token == token).FirstOrDefault();
-                Player p = db.Players.Where(s => s.eid == eid).FirstOrDefault();
+                Player p = db.Players.Where(s => s.user.username == username).FirstOrDefault();
                 if (t != null && p != null)
                 {
                     if (t.isAvailable())
@@ -189,12 +186,12 @@ namespace ReadyPlayerSite.Controllers
                         p.addTaskPoints(t);
                         if (t.isMilestone)
                         {
-                            p.milestonesCompleted.Add(t);
+                            p.tasksCompleted.Add(PlayerToTask.GetPTT(p, t));
                             db.Entry(t).State = EntityState.Modified;
                         }
                         else
                         {
-                            p.tasksCompleted.Add(t);
+                            p.tasksCompleted.Add(PlayerToTask.GetPTT(p, t));
                         }
                         db.Entry(p).State = EntityState.Modified;
                         db.SaveChanges();
