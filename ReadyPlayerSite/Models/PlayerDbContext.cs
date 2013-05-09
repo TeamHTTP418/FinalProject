@@ -13,11 +13,12 @@ namespace ReadyPlayerSite.Models
         public DbSet<Task> Tasks { get; set; }
         public DbSet<FreezeInfo> freezeInfos { get; set; }
         public DbSet<AdminAction> adminActions { get; set; }
-
+        public DbSet<PlayerToTask> playerToTasks { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>().HasMany(p => p.tasksCompleted).WithMany().Map(pt => pt.ToTable("PlayerToTasks"));
-            modelBuilder.Entity<Player>().HasMany(p => p.milestonesCompleted).WithMany().Map(pm => pm.ToTable("PlayerToMilestones"));
+            modelBuilder.Entity<PlayerToTask>().HasRequired(s => s.player).WithMany(p => p.tasksCompleted).HasForeignKey(s => s.playerID);
+            modelBuilder.Entity<PlayerToTask>().HasRequired(s => s.task).WithMany().HasForeignKey(s => s.taskID);
+            
             modelBuilder.Entity<Player>().HasOptional(p => p.freezeInfo).WithRequired(fi => fi.player);
             modelBuilder.Entity<Player>().HasRequired(p => p.user).WithOptional();
             modelBuilder.Entity<Player>().HasMany(p => p.adminActions).WithRequired(aa => aa.player).HasForeignKey(aa => aa.playerID).WillCascadeOnDelete(false);

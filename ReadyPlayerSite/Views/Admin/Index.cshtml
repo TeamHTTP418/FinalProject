@@ -7,11 +7,11 @@
 <p>
 
 </p>
-@using (Html.BeginForm("ManagePlayerByEid", "Admin", FormMethod.Get, new { enctype = @"multipart/form-data" }))
+@using (Html.BeginForm("ManagePlayerByUsername", "Admin", FormMethod.Get))
 {
     <p>
-        @Html.TextBox("eid", "User EID")
-        <input type="submit" value="Manage User By Eid" />
+        @Html.TextBox("username", "Username")
+        <input type="submit" value="Manage User" />
     </p>
 }
 <br />
@@ -26,9 +26,6 @@ else
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.First().player.user.username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().player.user.realName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().type)
@@ -46,9 +43,6 @@ else
             <tr>
                 <td>
                     @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.username), "../Players/Details", new { id = item.playerID })
-                </td>
-                <td>
-                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.realName), "../Users/Details", new { id = item.player.ID })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.type)
@@ -69,8 +63,8 @@ else
 
 @section Scripts{
     <script type="text/javascript">
-        function manageUser(eid) {
-            window.location = "Admin/ManagePlayerByEid/?eid=" + eid;
+        function manageUser(username) {
+            window.location = "Admin/ManagePlayerByEid/?username=" + username;
         }
     </script>
 }

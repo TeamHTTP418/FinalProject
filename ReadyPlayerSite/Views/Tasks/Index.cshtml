@@ -4,6 +4,11 @@
     ViewBag.Title = "Task Index";
 }
 
+@if (User.IsInRole("Administrator"))
+{
+    @Html.ActionLink("Create New Task", "Create", "Tasks")
+}
+
 @if (Model.tasks.Count <= 0)
 {
     <h3>No Tasks Found</h3>
@@ -64,8 +69,10 @@ else
                     }
                 </th>
                 <th>
+                    @Html.ActionLink("Solve", "Submit", new { id = item.ID } )
                     @if (User.IsInRole("Administrator"))
                     {
+                        @Html.Raw(" | ") 
                         @Html.ActionLink("Edit", "Edit", new { item.ID })
                     }
                 </th>
@@ -150,8 +157,10 @@ else
                     <img src="@Url.Content("~/Content/icons/" + item.iconName)" alt="@item.name" title="@item.name" height="42" width="42"/>
                 </th>
                 <th>
+                    @Html.ActionLink("Solve", "Submit", new { id = item.ID } )
                     @if (User.IsInRole("Administrator"))
                     {
+                        @Html.Raw(" | ")
                         @Html.ActionLink("Edit", "Edit", new { item.ID })
                     }
                 </th>

@@ -16,10 +16,6 @@ namespace ReadyPlayerSite.Models
 
         public virtual User user { get; set; }
 
-        [DisplayName("EID")]
-        [RegularExpression(@"\d{9}")]
-        public string eid { get; set; }
-
         [DisplayName("Attendance Score")]
         public int attendanceScore { get; set; }
         [DisplayName("Puzzle Score")]
@@ -31,15 +27,14 @@ namespace ReadyPlayerSite.Models
         [DisplayName("Story Score")]
         public int storyScore { get; set; }
 
-        public virtual ICollection<Task> milestonesCompleted { get; set; }
-        public virtual ICollection<Task> tasksCompleted { get; set; }
+        public virtual ICollection<PlayerToTask> tasksCompleted { get; set; }
 
         public virtual ICollection<AdminAction> adminActions { get; set; }
 
         public int? freezeInfoID { get; set; }
         public virtual FreezeInfo freezeInfo { get; set; }
 
-        public int TotalScore()
+        public int totalScore()
         {
             return attendanceScore + puzzleScore + crossCurricularScore + cooperationScore + storyScore;
         }
@@ -99,7 +94,7 @@ namespace ReadyPlayerSite.Models
         public bool addTaskPoints(Task task)
         {
             bool result = false;
-            if (freezeInfoID.HasValue)
+            if (isFrozen())
             {
                 result =  addHeldPoints(task.type, task.value);
                 if (result && task.isMilestone && task.numberCompleted < task.maxCompletedBonus)
@@ -134,7 +129,7 @@ namespace ReadyPlayerSite.Models
 
         public bool isFrozen()
         {
-            return freezeInfoID.HasValue;
+            return freezeInfo != null;
         }
     }
 }

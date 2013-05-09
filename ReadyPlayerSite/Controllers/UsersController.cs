@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ReadyPlayerSite.Models;
+using ReadyPlayerSite.ViewModels;
 using WebMatrix.WebData;
 
 namespace ReadyPlayerSite.Controllers
@@ -34,14 +35,30 @@ namespace ReadyPlayerSite.Controllers
                 return RedirectToAction("Details", new { id = WebSecurity.CurrentUserId });
             }
 
-            User user = db.Users.Find(id);
+            Player player = db.Players.Find(id);
 
-            if (user == null)
+            if (player == null)
             {
                 return HttpNotFound();
             }
-
-            return View(user);
+            var lists = player.tasksCompleted.GroupBy(t => t.task.isMilestone).OrderBy(g => g.Key).Select(g => g.ToList()).ToArray();
+            List<PlayerToTask> tasks = new List<PlayerToTask>();
+            List<PlayerToTask> milestones = new List<PlayerToTask>();
+            if (lists.Count() == 2)
+            {
+                tasks = lists[0].OrderByDescending(s => s.when).ToList();
+                milestones = lists[1].OrderByDescending(s => s.when).ToList();
+            }else if(lists.Count() == 1){
+                if (lists[0].First().task.isMilestone)
+                {
+                    milestones = lists[0].OrderByDescending(s => s.when).ToList();
+                }
+                else
+                {
+                    tasks = lists[0].OrderByDescending(s => s.when).ToList();
+                }
+            }
+            return View(new PlayerDetails {player = player, tasks = tasks, milestones = milestones });
         }
 
         //

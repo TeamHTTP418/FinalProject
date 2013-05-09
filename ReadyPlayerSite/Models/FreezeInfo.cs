@@ -31,6 +31,11 @@ namespace ReadyPlayerSite.Models
 
         public virtual Player player { get; set; }
 
+        public int totalFrozenPoints()
+        {
+            return attendanceScore + puzzleScore + crossCurricularScore + cooperationScore + storyScore;
+        }
+
         public void addPointsToPlayer()
         {
             player.attendanceScore += attendanceScore;

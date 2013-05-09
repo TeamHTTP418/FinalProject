@@ -1,5 +1,4 @@
 ﻿@model ReadyPlayerSite.Models.User
 <div>
     @Html.ActionLink(Model.username, "Details", "Users", new { id = Model.ID }, null)
-    (@Html.DisplayFor(model => model.realName))
 </div>

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create New Account";
 }
 
 
@@ -14,17 +14,8 @@
             @Html.Raw("Player: " + @WebSecurity.CurrentUserName)
         </p>
         <p>
-            @Html.Raw("Real Name")
-            @Html.TextBox("realname")
-        </p>
-        <p>
-            @Html.TextBox("eid", "Your EID")
-        </p>
-        <p>
-            @Html.Raw("Allow this website to publish your personal information? (EID, Scores related to ReadyPlayerSite)\n*Required*")
-        </p>
-        <p>
-            @Html.CheckBox("acceptterms", false)
+            @Html.Raw("Do you allow this website to publish some of your personal information?\n(Username, Scores related to ReadyPlayerSite) *Required*")
+             @Html.CheckBox("acceptterms", false)
         </p>
         <input type="submit" />
     </fieldset>

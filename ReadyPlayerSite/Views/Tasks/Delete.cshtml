@@ -1,10 +1,8 @@
 ﻿@model ReadyPlayerSite.Models.Task
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete Task";
 }
-
-<h2>Delete</h2>
 
 <h3>Are you sure you want to delete this?</h3>
 <fieldset>
@@ -15,7 +13,7 @@
 @using (Html.BeginForm())
 {
     <p>
-        @Html.Raw("Delete Icon File")
+        @Html.Raw("Also Delete Icon File?")
         @Html.CheckBox("removeIcon")
     </p>
     <p>

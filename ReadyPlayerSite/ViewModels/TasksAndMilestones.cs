@@ -8,6 +8,7 @@ namespace ReadyPlayerSite.ViewModels
 {
     public class TasksAndMilestones
     {
+        public Player player;
         public List<Task> tasks;
         public List<Task> milestones;
 

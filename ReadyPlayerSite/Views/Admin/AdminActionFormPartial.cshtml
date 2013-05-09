@@ -9,10 +9,6 @@
             @Html.DisplayFor(model => model.player.user.username)
         </li>
         <li>
-            @Html.LabelFor(model => model.player.eid)
-            @Html.DisplayFor(model => model.player.eid)
-        </li>
-        <li>
             @Html.LabelFor(model => model.type)
             @Html.EditorFor(model => model.type)
             @Html.ValidationMessageFor(model => model.type)
