@@ -13,14 +13,14 @@
             <div class="float-left">
                 <p class="site-title">@Html.ActionLink("Ready Player One ~ Hale Librabry", "Index", "Home")</p>
             </div>
-            <div class="float-right">
+            <div class="top_menu">
                 <section id="login">
                     @Html.Partial("_LoginPartial")
                 </section>
                 <nav class="top_menu">
                     <ul id="menu">
-                        <li>@Html.ActionLink("Home", "Leader Board", "Home")</li>
-                        <li>@Html.ActionLink("Leader Board", "Leader Board", "Home")</li>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Leader Board", "LeaderBoard")</li>
                         <li>@Html.ActionLink("View Tasks", "Index", "Tasks")</li>
                         @if (User.IsInRole("Administrator"))
                         { 

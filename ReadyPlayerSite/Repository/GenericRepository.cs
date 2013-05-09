@@ -25,7 +25,6 @@ namespace ReadyPlayerSite.Repository
         }
         public virtual IQueryable<T> GetAll()
         {
-
             IQueryable<T> query = _entities.Set();
             return query;
         }
