@@ -109,6 +109,7 @@ namespace ReadyPlayerSite.Controllers
             {
                 return null;
             }
+            int t = (int)db.Tasks.Sum(s => s.bonusPoints);
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
             QrCode qrCode = new QrCode();
             qrEncoder.TryEncode("http://localhost:1558/Tasks/SubmitQR/?token=" + task.token, out qrCode);

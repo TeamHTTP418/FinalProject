@@ -42,7 +42,7 @@ else
         {
             <tr>
                 <td>
-                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.username), "../Players/Details", new { id = item.playerID })
+                    @Html.ActionLink("" + @Html.DisplayFor(modelItem => item.player.user.username), "../Users/Details", new { id = item.playerID })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.type)

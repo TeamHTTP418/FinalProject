@@ -1,0 +1,199 @@
+﻿@model List<ReadyPlayerSite.ViewModels.ScoreboardDetails>
+@using ReadyPlayerSite.ViewModels
+@{
+    ViewBag.Title = ViewBag.boardType + " Leaderboard";
+    ViewBag.playerCount = 1;
+}
+
+<hr />
+<div>
+    @Html.ActionLink("Total", "Index")
+    @Html.Raw(" | ")
+    @Html.ActionLink("Attendance", "Index", new { scoreType = "attendance" })
+    @Html.Raw(" | ")
+    @Html.ActionLink("Cooperation", "Index", new { scoreType = "cooperation" })
+    @Html.Raw(" | ")
+    @Html.ActionLink("Cross Curricular", "Index", new { scoreType = "crosscurricular" })
+    @Html.Raw(" | ")
+    @Html.ActionLink("Puzzle", "Index", new { scoreType = "puzzle" })
+    @Html.Raw(" | ")
+    @Html.ActionLink("Story", "Index", new { scoreType = "story" })
+</div>
+<hr />
+<form id="searchform">
+    <p>
+        @Html.Raw("Search For User")
+    </p>
+    <input id="searchbox" type="text" />
+    <input type="submit" />
+</form>
+<h3>@ViewBag.boardType Leaderboard</h3>
+@if (Model.Count() > 0)
+{
+    <table id="board">
+        <tr>
+            <th>
+                @Html.Raw("Rank")
+            </th>
+            <th>
+                @Html.Raw("User")
+            </th>
+            <th>
+                @Html.Raw("Points")
+            </th>
+            <th>
+                @Html.Raw("Milestones")
+            </th>
+            <th></th>
+        </tr>
+        @foreach (ScoreboardDetails item in Model)
+        {
+            <tr id="@item.player.user.username">
+                <td>
+                    @(ViewBag.playerCount++)
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("" + @Html.DisplayFor(model => item.player.user.username), "Details", "Users", new { id = item.player.ID })
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => item.player.user.username)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.value)
+                </td>
+                <td>
+                    @foreach (IconDetails icon in item.iconList)
+                    {
+                        <img src="@Url.Content("~/Content/icons/" + icon.iconName)" alt="@icon.name" title="@icon.name" height="42" width="42"/>
+                    }
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Manage Player", "ManageUser", "Admin", new { id = item.player.ID }, null)
+                    }
+                </td>
+
+            </tr>
+        }
+    </table>
+    <div id="scrollFooter">@Html.Raw("Loading Additional Players. . . ")</div>
+}
+else
+{
+    @Html.Raw("No Players In Database")
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        //http://lions-mark.com/jquery/scrollTo/
+        $(document).ready(function () {
+            $.fn.scrollTo = function (target, options, callback) {
+                if (typeof options == 'function' && arguments.length == 2) { callback = options; options = target; }
+                var settings = $.extend({
+                    scrollTarget: target,
+                    offsetTop: 50,
+                    duration: 500,
+                    easing: 'swing'
+                }, options);
+                return this.each(function () {
+                    var scrollPane = $(this);
+                    var scrollTarget = (typeof settings.scrollTarget == "number") ? settings.scrollTarget : $(settings.scrollTarget);
+                    var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
+                    scrollPane.animate({ scrollTop: scrollY }, parseInt(settings.duration), settings.easing, function () {
+                        if (typeof callback == 'function') { callback.call(this); }
+                    });
+                });
+            }
+
+            $("#searchform").bind('submit', function (e) {
+                e.preventDefault();
+                var username = $("#searchbox").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/LeaderBoard/findPlayer/",
+                    dataType: "json",
+                    data: { page: currentPage, boardType: "@(ViewBag.boardType)", userName: username },
+                    success: function (data) {
+                        if (data.foundPlayer) {
+                            if (data.onPage > currentPage) {
+                                currentPage = data.onpage;
+                                for (var x in data.playerlist) {
+                                    var iconList = "";
+                                    for (var y in data.playerlist[x].iconList) {
+                                        var icon = data.playerlist[x].icons[y]
+                                        var icons = '<img src=\'/Content/Icons/' + icon.iconName + '\' alt=\'' + icon.name + '\' title=\'' + icon.name + '\' height="42" width="42"/>';
+                                        iconList += icons;
+                                    }
+                                    $("#board tr:last").after('<tr id=\'' + data.playerlist[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.playerlist[x].player.user.username + '</td><td>' + data.playerlist[x].value + '</td><td>' + iconList + '</td></tr>');
+
+                                }
+                            }
+                            $("body").scrollTo('#' + username);
+                        }
+                    }
+                });
+            });
+            var check = true;
+            var playerCount = 101
+            var currentPage = @(ViewBag.page)
+
+            function addPlayers() {
+                $.ajax({
+                    type: "POST",
+                    url: "/LeaderBoard/getPlayers/",
+                    dataType: "json",
+                    data: { page: ++currentPage, scoreType: "@(ViewBag.boardType)" },
+                    success: function (data) {
+                        if (!data.morePlayers) {
+                            var ele = document.getElementById("scrollFooter");
+                            ele.parentNode.removeChild(ele);
+                        } else {
+                            for (var x in data.players) {
+                                var iconList = "";
+                                for (var y in data.players[x].iconList) {
+                                    var icon = data.players[x].icons[y]
+                                    var icons = '<img src=\'/Content/Icons/' + icon.iconName + '\' alt=\'' + icon.name + '\' title=\'' + icon.name + '\' height="42" width="42"/>';
+                                    iconList += icons;
+                                }
+                                $("#board tr:last").after('<tr id=\'' + data.players[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.players[x].player.user.username + '</td><td>' + data.players[x].value + '</td><td>' + iconList + '</td></tr>');
+
+                            }
+                        }
+                        check = true;
+                    }
+                });
+            }
+
+            function isScrolledIntoView(elem) {
+                if (elem == undefined || elem.length < 1)
+                    return false;
+                var docViewTop = $(window).scrollTop();
+                var docViewBottom = docViewTop + $(window).height();
+
+                var elemTop = $(elem).offset().top;
+                var elemBottom = elemTop + $(elem).height();
+
+                return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom));
+            }
+            function checkAndLoad() {
+                if (isScrolledIntoView($('#scrollFooter'))) {
+                    check = false;
+                    addPlayers();
+                }
+            }
+
+
+            checkAndLoad();
+            $(window).scroll(function () {
+                if (check)
+                    checkAndLoad();
+            });
+        });
+    </script>
+}

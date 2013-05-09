@@ -11,7 +11,7 @@
     <header>
         <div class="content-wrapper">
             <div class="float-left">
-                <p class="site-title">@Html.ActionLink("Ready Player One ~ Hale Librabry", "Index", "Home")</p>
+                <p class="site-title">Ready Player One ~ Hale Librabry</p>
             </div>
             <div class="top_menu">
                 <section id="login">
@@ -20,7 +20,7 @@
                 <nav class="top_menu">
                     <ul id="menu">
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Leader Board", "LeaderBoard")</li>
+                        <li>@Html.ActionLink("Leader Board", "Index", "LeaderBoard")</li>
                         <li>@Html.ActionLink("View Tasks", "Index", "Tasks")</li>
                         @if (User.IsInRole("Administrator"))
                         { 

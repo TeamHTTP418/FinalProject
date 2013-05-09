@@ -5,5 +5,5 @@
 <h2>Task Completed!</h2>
 <p>
     @Html.ActionLink("Go Back to Task Index", "Index") |
-    @Html.ActionLink("Go to your Profile Page", "Index", "User")
+    @Html.ActionLink("Go to your Profile Page", "Details", "Users", new { id = WebSecurity.CurrentUserId }, null)
 </p>

@@ -154,7 +154,7 @@ else
                     @Html.DisplayFor(model => item.maxCompletedBonus)
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/icons/" + item.iconName)" alt="@item.name" title="@item.name" height="42" widtd="42"/>
+                    <img src="@Url.Content("~/Content/icons/" + item.iconName)" alt="@item.name" title="@item.name" height="42" width="42"/>
                 </td>
                 <td>
                     @Html.ActionLink("Solve", "Submit", new { id = item.ID } )

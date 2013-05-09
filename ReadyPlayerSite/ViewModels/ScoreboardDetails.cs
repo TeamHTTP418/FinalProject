@@ -8,8 +8,14 @@ namespace ReadyPlayerSite.ViewModels
 {
     public class ScoreboardDetails
     {
-        public string pointType;
+        public int rank;
         public Player player;
         public int value;
+        public IEnumerable<IconDetails> iconList;
+    }
+    public class IconDetails
+    {
+        public string name;
+        public string iconName;
     }
 }
