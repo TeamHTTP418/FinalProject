@@ -25,8 +25,12 @@ namespace ReadyPlayerSite.Controllers
             players = new GenericRepository<Player>(new StorageContext<Player>(Context));
         }
 
+<<<<<<< HEAD
         public ActionResult Index(string scoreType, int page = 0)
         {
+=======
+        public ActionResult Index(string scoreType)
+>>>>>>> ff3e71d75b59e0c1de11713a9a833fb22761393b
 
             IEnumerable<ScoreboardDetails> list;
             var allPlayers = players.GetAll();
@@ -124,11 +128,14 @@ namespace ReadyPlayerSite.Controllers
             }
             ViewBag.page = page;
 
+<<<<<<< HEAD
             return View(list.ToList());
         }
 
         [HttpPost]
         public JsonResult getPlayers(string scoreType, int page)
+=======
+>>>>>>> ff3e71d75b59e0c1de11713a9a833fb22761393b
         {
             IEnumerable<ScoreboardDetails> list;
             var allPlayers = players.GetAll();
@@ -229,6 +236,7 @@ namespace ReadyPlayerSite.Controllers
             return Json(new { players = list.ToList(), morePlayers = morePlayers }, JsonRequestBehavior.AllowGet);
         }
 
+<<<<<<< HEAD
         [HttpPost]
         public JsonResult findPlayer(string boardType, string userName, int page = 0)
         {
@@ -329,6 +337,20 @@ namespace ReadyPlayerSite.Controllers
                 return Json(new { foundPlayer = true, onpage = onPage, playerlist = pages.ToList() }, JsonRequestBehavior.AllowGet);
             }
         }
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> ff3e71d75b59e0c1de11713a9a833fb22761393b
 
 
     }
