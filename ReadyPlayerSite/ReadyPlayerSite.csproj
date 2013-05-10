@@ -169,23 +169,15 @@
     <Compile Include="Repository\IGenericRepository.cs" />
     <Compile Include="Repository\IStorageContext.cs" />
     <Compile Include="Repository\StorageContext.cs" />
-    <Compile Include="ViewModels\LocalPasswordModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\LoginModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ViewModels\LocalPasswordModel.cs" />
+    <Compile Include="ViewModels\LoginModel.cs" />
     <Compile Include="ViewModels\PlayerDetails.cs" />
-    <Compile Include="ViewModels\RegisterModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ViewModels\RegisterModel.cs" />
     <Compile Include="ViewModels\ScoreboardDetails.cs" />
-    <Compile Include="ViewModels\TasksAndMilestones.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ViewModels\TasksAndMilestones.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\icons\1365743104482.jpg" />
+    <Content Include="Content\icons\black gate.png" />
     <Content Include="Content\icons\Copper Gate Outline.png" />
     <Content Include="Content\icons\Copper Gate.png" />
     <Content Include="Content\icons\Copper Key Outline.png" />
@@ -197,7 +189,6 @@
     <Content Include="Content\icons\defaulticon.png" />
     <Content Include="Content\icons\gate.png" />
     <Content Include="Content\icons\Jade Gate Outline.png" />
-    <Content Include="Content\icons\Jade Gate.png" />
     <Content Include="Content\icons\Jade Key Outline.png" />
     <Content Include="Content\icons\Jade Key.png" />
     <Content Include="Content\icons\key.png" />

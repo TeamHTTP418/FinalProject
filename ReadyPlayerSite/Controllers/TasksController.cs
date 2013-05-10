@@ -162,6 +162,7 @@ namespace ReadyPlayerSite.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public HttpStatusCodeResult AppSubmit(byte[] o = null)
         {
             RSACryptoServiceProvider rsa = getRSAProvider();
