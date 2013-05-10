@@ -38,7 +38,7 @@ namespace ReadyPlayerSite.Controllers
                     return RedirectToAction("Create");
                 }
             }
-            return RedirectToAction("Index", "Tasks");
+            return RedirectToAction("Index", "Home");
         }
         [Authorize]
         public ActionResult Create()
@@ -56,7 +56,7 @@ namespace ReadyPlayerSite.Controllers
                 Player player = new Player { user = user };
                 db.Players.Add(player);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Tasks");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -64,7 +64,7 @@ namespace ReadyPlayerSite.Controllers
         [HttpGet]
         public ActionResult LogOff()
         {
-            return RedirectToAction("Login", "Accounts"); //TODO: URL Change
+            return RedirectToAction("Login", "Accounts");
         }
 
         //
@@ -73,7 +73,7 @@ namespace ReadyPlayerSite.Controllers
         public ActionResult LogOff(string validation)
         {
             CasAuthentication.SingleSignOut();
-            return RedirectToAction("Index", "Tasks"); //TODO: URL Change
+            return RedirectToAction("Index", "Home"); 
         }
 
         #region Helpers

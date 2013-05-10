@@ -14,7 +14,7 @@
         <p>Any points earned will be held until the freeze has been lifted.</p>
         <hr />
     }
-    <table>
+    <table class="table">
         <tr>
             <th>
                 @Html.Raw("Total Points")
@@ -95,7 +95,7 @@
     </p>
     @if (Model.milestones.Count > 0)
     {
-        <table>
+        <table class="table">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.milestones.First().task.name)
@@ -145,7 +145,7 @@
     </p>
     @if (Model.tasks.Count > 0)
     {
-        <table>
+        <table class="table">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.tasks.First().task.name)

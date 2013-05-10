@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = ViewBag.boardType + " Leaderboard";
     ViewBag.playerCount = 1;
+    var admin = User.IsInRole("Administrator") ? "true" : "false";
+    var currentPage = ViewBag.page;
 }
 
 <hr />
@@ -24,13 +26,21 @@
     <p>
         @Html.Raw("Search For User")
     </p>
-    <input id="searchbox" type="text" />
-    <input type="submit" />
+    <div>
+        <input id="searchbox" type="text" />
+        <input type="submit" />
+    </div>
+    <p id="searchstatus" class="success hidden">
+        Searching For User. . .
+    </p>
+    <p id="searchfailed" class="warning hidden">
+        Could Not Find User.
+    </p>
 </form>
 <h3>@ViewBag.boardType Leaderboard</h3>
 @if (Model.Count() > 0)
 {
-    <table id="board">
+    <table id="board" class="table">
         <tr>
             <th>
                 @Html.Raw("Rank")
@@ -48,14 +58,16 @@
         </tr>
         @foreach (ScoreboardDetails item in Model)
         {
-            <tr id="@item.player.user.username" @if(ViewBag.playerCount < 11){ @Html.Raw("class=\'larger\'")} >
-                <td @if(ViewBag.playerCount < 11){ @Html.Raw("class=\'topten\'")} >
+            <tr id="@item.player.user.username" @if (ViewBag.playerCount < 11)
+                                                { @Html.Raw("class=\'larger\'")} >
+                <td @if (ViewBag.playerCount < 11)
+                    { @Html.Raw("class=\'topten\'")} >
                     @(ViewBag.playerCount++)
                 </td>
                 <td>
                     @if (User.IsInRole("Administrator"))
                     {
-                        @Html.ActionLink("" + @Html.DisplayFor(model => item.player.user.username), "Details", "Users", new { id = item.player.ID })
+                        @Html.ActionLink("" + @Html.DisplayFor(model => item.player.user.username), "Details", "Users", new { id = item.player.ID }, null)
                     }
                     else
                     {
@@ -74,14 +86,14 @@
                 <td>
                     @if (User.IsInRole("Administrator"))
                     {
-                        @Html.ActionLink("Manage Player", "ManageUser", "Admin", new { id = item.player.ID }, null)
+                        @Html.ActionLink("Manage Player", "ManagePlayer", "Admin", new { id = item.player.ID }, null)
                     }
                 </td>
 
             </tr>
         }
     </table>
-    <div id="scrollFooter">@Html.Raw("Loading Additional Players. . . ")</div>
+    <div id="scrollFooter" class="success">@Html.Raw("Loading Additional Players. . . ")</div>
 }
 else
 {
@@ -92,6 +104,7 @@ else
     <script type="text/javascript">
         //http://lions-mark.com/jquery/scrollTo/
         $(document).ready(function () {
+            var isAdmin = @admin
             $.fn.scrollTo = function (target, options, callback) {
                 if (typeof options == 'function' && arguments.length == 2) { callback = options; options = target; }
                 var settings = $.extend({
@@ -109,9 +122,13 @@ else
                     });
                 });
             }
-
+            
             $("#searchform").bind('submit', function (e) {
                 e.preventDefault();
+                $('#searchstatus').removeClass('hidden');
+                if (!$('#searchfailed').hasClass('hidden')) {
+                    $('#searchfailed').addClass('hidden');
+                }
                 var username = $("#searchbox").val();
 
                 $.ajax({
@@ -136,15 +153,22 @@ else
                             }
                             $(".highlight").removeClass('highlight');
                             $("#" + username).addClass('highlight');
-                            $("body").scrollTo('#' + username);
+                            $('#searchstatus').addClass('hidden');
+                            if (!isScrolledIntoView($("#" + username))) {
+                                $("body").scrollTo('#' + username);
+                            }
+
+                        } else {
+                            $('#searchstatus').addClass('hidden');
+                            $('#searchfailed').removeClass('hidden');
                         }
                     }
                 });
             });
             var check = true;
-            var playerCount = 101
-            var currentPage = @(ViewBag.page)
-
+            var playerCount = 101;
+            var currentPage = @currentPage
+            
             function addPlayers() {
                 $.ajax({
                     type: "POST",
@@ -163,8 +187,12 @@ else
                                     var icons = '<img src=\'/Content/Icons/' + icon.iconName + '\' alt=\'' + icon.name + '\' title=\'' + icon.name + '\' height="42" width="42"/>';
                                     iconList += icons;
                                 }
-                                $("#board tr:last").after('<tr id=\'' + data.players[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.players[x].player.user.username + '</td><td>' + data.players[x].value + '</td><td>' + iconList + '</td></tr>');
+                                if (isAdmin) {
+                                    $("#board tr:last").after('<tr id=\'' + data.players[x].player.user.username + '\'><td>' + playerCount++ + '</td><td><a href="/Users/Details/' + data.players[x].player.ID +'">' + data.players[x].player.user.username + '</a></td><td>' + data.players[x].value + '</td><td>' + iconList + '</td><td><a href="/Admin/ManagePlayer/' + data.players[x].player.ID + '">Manage Player</a></td></tr>');
 
+                                } else {
+                                    $("#board tr:last").after('<tr id=\'' + data.players[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.players[x].player.user.username + '</td><td>' + data.players[x].value + '</td><td>' + iconList + '</td><td></td></tr>');
+                                }
                             }
                         }
                         check = true;

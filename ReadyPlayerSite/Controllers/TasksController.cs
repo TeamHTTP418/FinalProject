@@ -49,11 +49,11 @@ namespace ReadyPlayerSite.Controllers
         public ActionResult Submit(int id = 0)
         {
             Task task = db.Tasks.Find(id);
-            if (task == null)
+            if (task == null || task.solution != "")
             {
                 return HttpNotFound();
             }
-
+            
             Player player = db.Players.Find(WebSecurity.CurrentUserId);
 
             if (player.tasksCompleted.Where(ptt => ptt.taskID == task.ID).Count() > 0)

@@ -34,6 +34,12 @@ body {
     background: #676D8F;
 }
 
+div.centered {
+    vertical-align: middle;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
 .header {
     margin-bottom: 5px;
     display:block;
@@ -54,13 +60,12 @@ body {
 }
 
 .topten {
-    color: #FFD400;
+    color: #24068b;
 }
 
 .highlight {
-    padding: 2em 2% 2em;
-    font-size: large;
-
+    font-size: x-large;
+    font-style: normal;
 }
 
 .logo {

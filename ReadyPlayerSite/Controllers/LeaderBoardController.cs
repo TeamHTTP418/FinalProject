@@ -121,8 +121,7 @@ namespace ReadyPlayerSite.Controllers
                 }
                 else
                 {
-                    IEnumerable<ScoreboardDetails> pages = getPages(scoreType, page + 1, targetIndex / 100 + 1);
-                    var x = pages.ToList();
+                    IEnumerable<ScoreboardDetails> pages = getPages(scoreType, page + 1, targetIndex / pageSize + 1);
                     return Json(new { found = true, onPage = targetIndex / pageSize, playersToLoad = pages.ToList() }, JsonRequestBehavior.AllowGet);
                 }
 
@@ -141,7 +140,7 @@ namespace ReadyPlayerSite.Controllers
                     list = allPlayers.OrderByDescending(s => s.puzzleScore)
                         .ThenByDescending(s => s.user.username)
                         .Skip(startPage * pageSize)
-                        .Take(Math.Min(allPlayers.Count() - (endPage - startPage) * pageSize, (endPage - startPage) * pageSize))
+                        .Take(Math.Min(allPlayers.Count() - startPage * pageSize, (endPage - startPage) * pageSize))
                         .Select(s => new ScoreboardDetails
                         {
                             player = s,
@@ -159,7 +158,7 @@ namespace ReadyPlayerSite.Controllers
                     list = allPlayers.OrderByDescending(s => s.storyScore)
                         .ThenByDescending(s => s.user.username)
                         .Skip(startPage * pageSize)
-                        .Take(Math.Min(allPlayers.Count() - (endPage - startPage) * pageSize, (endPage - startPage) * pageSize))
+                        .Take(Math.Min(allPlayers.Count() - startPage * pageSize, (endPage - startPage) * pageSize))
                         .Select(s => new ScoreboardDetails
                         {
                             player = s,
@@ -177,7 +176,7 @@ namespace ReadyPlayerSite.Controllers
                     list = allPlayers.OrderByDescending(s => s.attendanceScore)
                         .ThenByDescending(s => s.user.username)
                         .Skip(startPage * pageSize)
-                        .Take(Math.Min(allPlayers.Count() - (endPage - startPage) * pageSize, (endPage - startPage) * pageSize))
+                        .Take(Math.Min(allPlayers.Count() - startPage * pageSize, (endPage - startPage) * pageSize))
                         .Select(s => new ScoreboardDetails
                         {
                             player = s,
@@ -195,7 +194,7 @@ namespace ReadyPlayerSite.Controllers
                     list = allPlayers.OrderByDescending(s => s.crossCurricularScore)
                         .ThenByDescending(s => s.user.username)
                         .Skip(startPage * pageSize)
-                        .Take(Math.Min(allPlayers.Count() - (endPage - startPage) * pageSize, (endPage - startPage) * pageSize))
+                        .Take(Math.Min(allPlayers.Count() - startPage * pageSize, (endPage - startPage) * pageSize))
                         .Select(s => new ScoreboardDetails
                         {
                             player = s,
@@ -213,7 +212,7 @@ namespace ReadyPlayerSite.Controllers
                     list = allPlayers.OrderByDescending(s => s.cooperationScore)
                         .ThenByDescending(s => s.user.username)
                         .Skip(startPage * pageSize)
-                        .Take(Math.Min(allPlayers.Count() - (endPage - startPage) * pageSize, (endPage - startPage) * pageSize))
+                        .Take(Math.Min(allPlayers.Count() - startPage * pageSize, (endPage - startPage) * pageSize))
                         .Select(s => new ScoreboardDetails
                         {
                             player = s,
@@ -230,7 +229,7 @@ namespace ReadyPlayerSite.Controllers
                     list = allPlayers.OrderByDescending(s => s.puzzleScore + s.storyScore + s.cooperationScore + s.crossCurricularScore + s.attendanceScore)
                         .ThenByDescending(s => s.user.username)
                         .Skip(startPage * pageSize)
-                        .Take(Math.Min(allPlayers.Count() - (endPage - startPage) * pageSize, (endPage - startPage) * pageSize))
+                        .Take(Math.Min(allPlayers.Count() - startPage * pageSize, (endPage - startPage) * pageSize))
                         .Select(s => new ScoreboardDetails
                         {
                             player = s,
