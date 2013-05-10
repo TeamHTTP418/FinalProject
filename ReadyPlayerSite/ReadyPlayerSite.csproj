@@ -136,22 +136,24 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeaderBoardController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201305040310350_InitDatabase.cs" />
-    <Compile Include="Migrations\201305040310350_InitDatabase.Designer.cs">
-      <DependentUpon>201305040310350_InitDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201305081055091_InitialDatabase.cs" />
+    <Compile Include="Migrations\201305081055091_InitialDatabase.Designer.cs">
+      <DependentUpon>201305081055091_InitialDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201305050739210_AddTokenToTask.cs" />
-    <Compile Include="Migrations\201305050739210_AddTokenToTask.Designer.cs">
-      <DependentUpon>201305050739210_AddTokenToTask.cs</DependentUpon>
+    <Compile Include="Migrations\201305081607445_RemoveEIDandRealNameFromUser.cs" />
+    <Compile Include="Migrations\201305081607445_RemoveEIDandRealNameFromUser.Designer.cs">
+      <DependentUpon>201305081607445_RemoveEIDandRealNameFromUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201305051011045_AddSolutionToTask.cs" />
-    <Compile Include="Migrations\201305051011045_AddSolutionToTask.Designer.cs">
-      <DependentUpon>201305051011045_AddSolutionToTask.cs</DependentUpon>
+    <Compile Include="Migrations\201305081827061_ModifyPlayertoTasks.cs" />
+    <Compile Include="Migrations\201305081827061_ModifyPlayertoTasks.Designer.cs">
+      <DependentUpon>201305081827061_ModifyPlayertoTasks.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminAction.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\PlayerDbContext.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerToTask.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,26 +169,42 @@
     <Compile Include="Repository\IGenericRepository.cs" />
     <Compile Include="Repository\IStorageContext.cs" />
     <Compile Include="Repository\StorageContext.cs" />
-    <Compile Include="ViewModels\LocalPasswordModel.cs" />
-    <Compile Include="ViewModels\LoginModel.cs" />
-    <Compile Include="ViewModels\RegisterModel.cs" />
-    <Compile Include="ViewModels\TasksAndMilestones.cs" />
+    <Compile Include="ViewModels\LocalPasswordModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\LoginModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\PlayerDetails.cs" />
+    <Compile Include="ViewModels\RegisterModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\ScoreboardDetails.cs" />
+    <Compile Include="ViewModels\TasksAndMilestones.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ReadyPlayerOne\Copper Gate Outline.png" />
-    <Content Include="Content\ReadyPlayerOne\Copper Gate.png" />
-    <Content Include="Content\ReadyPlayerOne\Copper Key Outline.png" />
-    <Content Include="Content\ReadyPlayerOne\Copper Key.png" />
-    <Content Include="Content\ReadyPlayerOne\Crystal Gate Outline.png" />
-    <Content Include="Content\ReadyPlayerOne\Crystal Gate.png" />
-    <Content Include="Content\ReadyPlayerOne\Crystal Key Outline.png" />
-    <Content Include="Content\ReadyPlayerOne\Crystal Key.png" />
-    <Content Include="Content\ReadyPlayerOne\Jade Gate Outline.png" />
-    <Content Include="Content\ReadyPlayerOne\Jade Gate.png" />
-    <Content Include="Content\ReadyPlayerOne\Jade Key Outline.png" />
-    <Content Include="Content\ReadyPlayerOne\Jade Key.png" />
-    <Content Include="Content\ReadyPlayerOne\Silver Quarter Outline.png" />
-    <Content Include="Content\ReadyPlayerOne\Silver Quarter.png" />
+    <Content Include="Content\icons\1365743104482.jpg" />
+    <Content Include="Content\icons\Copper Gate Outline.png" />
+    <Content Include="Content\icons\Copper Gate.png" />
+    <Content Include="Content\icons\Copper Key Outline.png" />
+    <Content Include="Content\icons\Copper Key.png" />
+    <Content Include="Content\icons\Crystal Gate Outline.png" />
+    <Content Include="Content\icons\Crystal Gate.png" />
+    <Content Include="Content\icons\Crystal Key Outline.png" />
+    <Content Include="Content\icons\Crystal Key.png" />
+    <Content Include="Content\icons\defaulticon.png" />
+    <Content Include="Content\icons\gate.png" />
+    <Content Include="Content\icons\Jade Gate Outline.png" />
+    <Content Include="Content\icons\Jade Gate.png" />
+    <Content Include="Content\icons\Jade Key Outline.png" />
+    <Content Include="Content\icons\Jade Key.png" />
+    <Content Include="Content\icons\key.png" />
+    <Content Include="Content\icons\mwcliffs_vetter_2000.jpg" />
+    <Content Include="Content\icons\quarter.png" />
+    <Content Include="Content\icons\Silver Quarter Outline.png" />
+    <Content Include="Content\icons\Silver Quarter.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -243,6 +262,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\DateTimePicker.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -269,12 +289,28 @@
     <Content Include="Views\Admin\ManagePlayer.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\LeaderBoard.cshtml" />
+    <Content Include="Views\LeaderBoard\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\Shared\DisplayTemplates\User.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Tasks\Create.cshtml" />
+    <Content Include="Views\Tasks\Delete.cshtml" />
+    <Content Include="Views\Tasks\Details.cshtml" />
+    <Content Include="Views\Tasks\Edit.cshtml" />
+    <Content Include="Views\Tasks\Index.cshtml" />
+    <Content Include="Views\Tasks\Resubmitted.cshtml" />
+    <Content Include="Views\Tasks\Submit.cshtml" />
+    <Content Include="Views\Tasks\SubmitFailed.cshtml" />
+    <Content Include="Views\Tasks\TaskComplete.cshtml" />
+    <Content Include="Views\Tasks\TaskDetailsPartial.cshtml" />
+    <Content Include="Views\Tasks\TaskFormPartial.cshtml" />
+    <Content Include="Views\Tasks\TaskUnavailable.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
@@ -291,19 +327,8 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Tasks\Create.cshtml" />
-    <Content Include="Views\Tasks\Delete.cshtml" />
-    <Content Include="Views\Tasks\Details.cshtml" />
-    <Content Include="Views\Tasks\Edit.cshtml" />
-    <Content Include="Views\Tasks\Index.cshtml" />
-    <Content Include="Views\Tasks\TaskDetailsPartial.cshtml" />
-    <Content Include="Views\Tasks\TaskFormPartial.cshtml" />
-    <Content Include="Views\Tasks\Submit.cshtml" />
-    <Content Include="Views\Tasks\TaskComplete.cshtml" />
-    <Content Include="Views\Tasks\SubmitFailed.cshtml" />
-    <Content Include="Views\Tasks\Resubmitted.cshtml" />
-    <Content Include="Views\Tasks\TaskUnavailable.cshtml" />
+    <Content Include="Views\Accounts\Create.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Task.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -312,14 +337,14 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201305040310350_InitDatabase.resx">
-      <DependentUpon>201305040310350_InitDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201305081055091_InitialDatabase.resx">
+      <DependentUpon>201305081055091_InitialDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201305050739210_AddTokenToTask.resx">
-      <DependentUpon>201305050739210_AddTokenToTask.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201305081607445_RemoveEIDandRealNameFromUser.resx">
+      <DependentUpon>201305081607445_RemoveEIDandRealNameFromUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201305051011045_AddSolutionToTask.resx">
-      <DependentUpon>201305051011045_AddSolutionToTask.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201305081827061_ModifyPlayertoTasks.resx">
+      <DependentUpon>201305081827061_ModifyPlayertoTasks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

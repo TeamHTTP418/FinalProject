@@ -48,7 +48,18 @@ body {
     display:block;
 }
 
-.highlighted {
+.larger {
+    font-size: large;
+    padding: 2em, 2%, 2em;
+}
+
+.topten {
+    color: #FFD400;
+}
+
+.highlight {
+    padding: 2em 2% 2em;
+    font-size: large;
 
 }
 

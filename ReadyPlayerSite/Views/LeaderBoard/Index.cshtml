@@ -48,8 +48,8 @@
         </tr>
         @foreach (ScoreboardDetails item in Model)
         {
-            <tr id="@item.player.user.username">
-                <td>
+            <tr id="@item.player.user.username" @if(ViewBag.playerCount < 11){ @Html.Raw("class=\'larger\'")} >
+                <td @if(ViewBag.playerCount < 11){ @Html.Raw("class=\'topten\'")} >
                     @(ViewBag.playerCount++)
                 </td>
                 <td>
@@ -120,20 +120,22 @@ else
                     dataType: "json",
                     data: { page: currentPage, boardType: "@(ViewBag.boardType)", userName: username },
                     success: function (data) {
-                        if (data.foundPlayer) {
+                        if (data.found) {
                             if (data.onPage > currentPage) {
-                                currentPage = data.onpage;
-                                for (var x in data.playerlist) {
+                                currentPage = data.onPage;
+                                for (var x in data.playersToLoad) {
                                     var iconList = "";
-                                    for (var y in data.playerlist[x].iconList) {
-                                        var icon = data.playerlist[x].icons[y]
+                                    for (var y in data.playersToLoad[x].iconList) {
+                                        var icon = data.playersToLoad[x].icons[y]
                                         var icons = '<img src=\'/Content/Icons/' + icon.iconName + '\' alt=\'' + icon.name + '\' title=\'' + icon.name + '\' height="42" width="42"/>';
                                         iconList += icons;
                                     }
-                                    $("#board tr:last").after('<tr id=\'' + data.playerlist[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.playerlist[x].player.user.username + '</td><td>' + data.playerlist[x].value + '</td><td>' + iconList + '</td></tr>');
+                                    $("#board tr:last").after('<tr id=\'' + data.playersToLoad[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.playersToLoad[x].player.user.username + '</td><td>' + data.playersToLoad[x].value + '</td><td>' + iconList + '</td></tr>');
 
                                 }
                             }
+                            $(".highlight").removeClass('highlight');
+                            $("#" + username).addClass('highlight');
                             $("body").scrollTo('#' + username);
                         }
                     }
