@@ -115,21 +115,27 @@ div.centered {
 }
 
         .table tr:nth-child(odd) {
-            background: #FFFFFF;
+            background: #000000;
+
         }
 
         .table tr:nth-child(even) {
-            background: #E4E4E4;
+            background: #000007;
         }
 
     .table th {
         text-align: center;
-        font-size: 14px;
+        font-size: 20px;
+        background: #D1D3D4;
+        color: #a677b4;
+
     }
 
     .table td {
         padding:2px 1px;
         text-align: center;
+        color: #a677b4;
+
     }
 
     .table .left-align {
