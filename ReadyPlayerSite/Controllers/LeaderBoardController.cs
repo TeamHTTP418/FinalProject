@@ -70,7 +70,7 @@ namespace ReadyPlayerSite.Controllers
         {
             IEnumerable<ScoreboardDetails> list = getPages(scoreType, page, page + 1);
 
-            bool morePlayers = (players.GetAll().Count() - (page + 1) * pageSize) > 0;
+            bool morePlayers = (getAllPlayers().Count() - (page + 1) * pageSize) > 0;
             return Json(new { players = list.ToList(), morePlayers = morePlayers }, JsonRequestBehavior.AllowGet);
         }
 
@@ -78,14 +78,14 @@ namespace ReadyPlayerSite.Controllers
         [HttpPost]
         public JsonResult findPlayer(string scoreType, string userName, int page = 0)
         {
-            Player target = players.GetAll().FirstOrDefault(s => s.user.username == userName);
+            Player target = getAllPlayers().FirstOrDefault(s => s.user.username == userName);
             if (target == null)
             {
                 return Json(new { found = false }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                IEnumerable<Player> allPlayers = players.GetAll();
+                IEnumerable<Player> allPlayers = getAllPlayers();
                 int targetIndex = 0;
                 switch (scoreType)
                 {
@@ -132,7 +132,13 @@ namespace ReadyPlayerSite.Controllers
         private IEnumerable<ScoreboardDetails> getPages(string scoreType, int startPage, int endPage)
         {
             IEnumerable<ScoreboardDetails> list;
-            var allPlayers = players.GetAll();
+            
+            var allPlayers = getAllPlayers();
+            if (allPlayers.Count() < startPage * pageSize)
+            {
+                return new List<ScoreboardDetails>().AsEnumerable();
+            }
+            
             switch (scoreType)
             {
                 case "puzzle":
@@ -246,7 +252,10 @@ namespace ReadyPlayerSite.Controllers
             return list;
         }
 
-
+        private IQueryable<Player> getAllPlayers()
+        {
+            return players.GetAll().Where(s => s.user.admin == false);
+        }
 
     }
 }

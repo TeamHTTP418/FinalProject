@@ -155,6 +155,10 @@
     <Compile Include="Migrations\201305081827061_ModifyPlayertoTasks.Designer.cs">
       <DependentUpon>201305081827061_ModifyPlayertoTasks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201305161303391_AddAdminFlagToUser.cs" />
+    <Compile Include="Migrations\201305161303391_AddAdminFlagToUser.Designer.cs">
+      <DependentUpon>201305161303391_AddAdminFlagToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminAction.cs" />
     <Compile Include="Models\FreezeInfo.cs" />
@@ -270,6 +274,7 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Accounts\ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Accounts\Create.cshtml" />
     <Content Include="Views\Accounts\Login.cshtml" />
     <Content Include="Views\Accounts\Manage.cshtml" />
     <Content Include="Views\Accounts\Register.cshtml" />
@@ -283,6 +288,7 @@
     <Content Include="Views\LeaderBoard\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\DisplayTemplates\Task.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\User.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\LoginPartial.cshtml" />
@@ -318,8 +324,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Accounts\Create.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\Task.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -336,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201305081827061_ModifyPlayertoTasks.resx">
       <DependentUpon>201305081827061_ModifyPlayertoTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305161303391_AddAdminFlagToUser.resx">
+      <DependentUpon>201305161303391_AddAdminFlagToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

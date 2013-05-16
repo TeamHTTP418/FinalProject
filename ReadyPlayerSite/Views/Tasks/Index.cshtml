@@ -40,7 +40,7 @@ else
         {
             <tr>
                 <td>
-                    @Html.ActionLink(""+@Html.DisplayFor(model => item.name), "Details", new { id = item.ID} )
+                    @Html.ActionLink("" + @Html.DisplayFor(model => item.name), "Details", new { id = item.ID })
                 </td>
                 <td>
                     @Html.DisplayFor(model => item.type)
@@ -69,7 +69,10 @@ else
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("Solve", "Submit", new { id = item.ID } )
+                    @if (item.solution != "")
+                    { 
+                        @Html.ActionLink("Solve", "Submit", new { id = item.ID })
+                    }
                     @if (User.IsInRole("Administrator"))
                     {
                         @Html.Raw(" | ") 
@@ -119,7 +122,7 @@ else
         {
             <tr>
                 <td>
-                    @Html.ActionLink(""+@Html.DisplayFor(model => item.name), "Details", new { id = item.ID} )
+                    @Html.ActionLink("" + @Html.DisplayFor(model => item.name), "Details", new { id = item.ID })
                 </td>
                 <td>
                     @Html.DisplayFor(model => item.type)
@@ -157,7 +160,7 @@ else
                     <img src="@Url.Content("~/Content/icons/" + item.iconName)" alt="@item.name" title="@item.name" height="42" width="42"/>
                 </td>
                 <td>
-                    @Html.ActionLink("Solve", "Submit", new { id = item.ID } )
+                    @Html.ActionLink("Solve", "Submit", new { id = item.ID })
                     @if (User.IsInRole("Administrator"))
                     {
                         @Html.Raw(" | ")

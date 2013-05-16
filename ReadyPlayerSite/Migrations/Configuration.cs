@@ -8,6 +8,7 @@ namespace ReadyPlayerSite.Migrations
     using ReadyPlayerSite.Models;
     using System.Web.Security;
     using WebMatrix.WebData;
+    using System.IO;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ReadyPlayerSite.Models.PlayerDbContext>
     {
@@ -35,7 +36,8 @@ namespace ReadyPlayerSite.Migrations
             {
                 WebSecurity.CreateUserAndAccount(
                     "admin",
-                    "admin");
+                    "admin",
+                        new { admin = true });
             }
             if (!Roles.GetRolesForUser("admin").Contains("Administrator"))
             {
@@ -60,34 +62,46 @@ namespace ReadyPlayerSite.Migrations
             }
             context.SaveChanges();
 
+            DirectoryInfo iconDirectory = new DirectoryInfo(@"ReadyPlayerSite/Content/icons");
+            
+            var icons = from FileInfo f in iconDirectory.GetFiles()
+                        select Path.GetFileName(f.Name);
             for (int i = 1; i < 11; i++)
             {
-                Task task = createTask(rand, i);
+                Task task = createTask(rand, i, icons.ToArray());
                 context.Tasks.Add(task);
             }
             context.SaveChanges();
 
-            var tasks_and_milestones = context.Tasks.ToList().GroupBy(t => t.isMilestone).OrderBy(g => g.Key).Select(g => g.ToList()).ToArray();
-            Player first = context.Players.First();
-            first.tasksCompleted = new List<PlayerToTask>();
-            first.puzzleScore = 0;
-            first.storyScore = 0;
-            first.attendanceScore = 0;
-            first.cooperationScore = 0;
-            first.crossCurricularScore = 0;
-            foreach (Task t in tasks_and_milestones[0])
+            var alltasks = context.Tasks.ToArray();
+            foreach (Player player in context.Players.Take(20))
             {
-                first.tasksCompleted.Add(PlayerToTask.GetPTT(first, t));
-                first.addTaskPoints(t);
-            }
-            foreach (Task m in tasks_and_milestones[1])
-            {
-                first.tasksCompleted.Add(PlayerToTask.GetPTT(first, m));
-                first.addTaskPoints(m);
+                giveRandomTasks(player, alltasks, rand);
             }
             context.SaveChanges();
+        }
 
-
+        private static void giveRandomTasks(Player player, Task[] tasks, Random rand)
+        {
+            int count = rand.Next(0, tasks.Length);
+            player.tasksCompleted = new List<PlayerToTask>();
+            player.puzzleScore = 0;
+            player.storyScore = 0;
+            player.attendanceScore = 0;
+            player.cooperationScore = 0;
+            player.crossCurricularScore = 0;
+            List<Task> added = new List<Task>();
+            for (int i = 0; i < count; i++)
+            {
+                Task toAdd = tasks[rand.Next(0, tasks.Length)];
+                if (!added.Contains(toAdd))
+                {
+                    player.addTaskPoints(toAdd);
+                    player.tasksCompleted.Add(PlayerToTask.GetPTT(player, toAdd));
+                    added.Add(toAdd);
+                }
+                
+            }
         }
 
         private static Player createPlayer(User user, Random rand)
@@ -95,17 +109,17 @@ namespace ReadyPlayerSite.Migrations
             
             Player player = new Player
             {
-                user = user,
+                user = user/*,
                 attendanceScore = rand.Next(0, 11),
                 puzzleScore = rand.Next(0, 11),
                 cooperationScore = rand.Next(0, 11),
                 crossCurricularScore = rand.Next(0, 11),
-                storyScore = rand.Next(0, 11)
+                storyScore = rand.Next(0, 11)*/
             };
             return player;
         }
 
-        private Task createTask(Random rand, int i = 0)
+        private Task createTask(Random rand, int i = 0, string[] iconList = null)
         {
             Task t = new Task { ID = i, value = rand.Next(0, 10), name = i == 0 ? "New Task" : "New Task " + i };
 
@@ -128,7 +142,7 @@ namespace ReadyPlayerSite.Migrations
             t.type = types[rand.Next(0, types.Length)];
             string[] descriptions = { "Test Description", "Placeholder", "Auto Generated Description" };
             t.description = descriptions[rand.Next(0, descriptions.Length)];
-            string[] icons = { "gate.png", "key.png", "quarter.png" };
+            string[] icons = iconList; //{ "gate.png", "key.png", "quarter.png" };
             t.token = Guid.NewGuid().ToString();
             string[] keywords = { "Solution" };
             t.solution = keywords[rand.Next(0, keywords.Length)];

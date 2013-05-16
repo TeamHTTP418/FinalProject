@@ -74,7 +74,8 @@
                         @Html.DisplayFor(model => item.player.user.username)
                     }
                 </td>
-                <td>
+                <td @if (ViewBag.playerCount < 12)
+                    { @Html.Raw("class=\'topten\'")} >
                     @Html.DisplayFor(model => item.value)
                 </td>
                 <td>

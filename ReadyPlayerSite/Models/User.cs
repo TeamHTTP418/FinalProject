@@ -11,6 +11,11 @@ namespace ReadyPlayerSite.Models
     [Table("Users")]
     public class User : IModel
     {
+        public User()
+        {
+            admin = false;
+        }
+
         [ScaffoldColumn(false)]
         [Key]
         public override int ID { get; set; }
@@ -20,5 +25,7 @@ namespace ReadyPlayerSite.Models
         [StringLength(100, MinimumLength = 3, ErrorMessage = "The username must be between 3 and 100 characters")]
         public String username { get; set; }
 
+        [ScaffoldColumn(false)]
+        public bool admin { get; set; }
     }
 }

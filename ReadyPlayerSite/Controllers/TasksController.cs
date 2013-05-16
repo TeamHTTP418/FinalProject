@@ -49,7 +49,7 @@ namespace ReadyPlayerSite.Controllers
         public ActionResult Submit(int id = 0)
         {
             Task task = db.Tasks.Find(id);
-            if (task == null || task.solution != "")
+            if (task == null || task.solution == "")
             {
                 return HttpNotFound();
             }

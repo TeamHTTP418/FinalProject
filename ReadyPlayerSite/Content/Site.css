@@ -32,6 +32,7 @@ body {
     font-family: 'VT323', cursive;
     color: #000000;
     background: #676D8F;
+    font-size:larger;
 }
 
 div.centered {
@@ -55,13 +56,10 @@ div.centered {
 }
 
 .larger {
-    font-size: large;
+    font-size: xx-large;
     padding: 2em, 2%, 2em;
 }
 
-.topten {
-    color: #24068b;
-}
 
 .highlight {
     font-size: x-large;
@@ -110,37 +108,37 @@ div.centered {
 
 .table {
     width: 100%;
-    border-collapse:collapse; 
-    border-spacing:0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: #a677b4;
+    font-size: x-large;
 }
-
         .table tr:nth-child(odd) {
             background: #000000;
 
         }
 
         .table tr:nth-child(even) {
-            background: #000007;
+            background: #0c0c0c;
         }
 
     .table th {
         text-align: center;
         font-size: 20px;
         background: #D1D3D4;
-        color: #a677b4;
 
     }
 
     .table td {
         padding:2px 1px;
         text-align: center;
-        color: #a677b4;
-
     }
-
     .table .left-align {
         padding:2px 1px;
         text-align: left;
+    }
+    .table .topten {
+        color: #d8b719;
     }
 
 .top_menu {
@@ -260,7 +258,7 @@ div.centered {
 
 .success {
   color:#fff;
-  background:#4ABF3B;
+  background:#1078b4;
   padding:8px 14px;
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
