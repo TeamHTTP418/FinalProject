@@ -66,7 +66,7 @@ namespace ReadyPlayerSite.Migrations
             
             var icons = from FileInfo f in iconDirectory.GetFiles()
                         select Path.GetFileName(f.Name);
-            for (int i = 1; i < 11; i++)
+            for (int i = 1; i < 20; i++)
             {
                 Task task = createTask(rand, i, icons.ToArray());
                 context.Tasks.Add(task);
@@ -74,7 +74,7 @@ namespace ReadyPlayerSite.Migrations
             context.SaveChanges();
 
             var alltasks = context.Tasks.ToArray();
-            foreach (Player player in context.Players.Take(20))
+            foreach (Player player in context.Players.Take(50))
             {
                 giveRandomTasks(player, alltasks, rand);
             }
@@ -121,7 +121,7 @@ namespace ReadyPlayerSite.Migrations
 
         private Task createTask(Random rand, int i = 0, string[] iconList = null)
         {
-            Task t = new Task { ID = i, value = rand.Next(0, 10), name = i == 0 ? "New Task" : "New Task " + i };
+            Task t = new Task { ID = i, value = rand.Next(1, 10), name = i == 0 ? "New Task" : "New Task " + i };
 
             switch (rand.Next(0, 4))
             {
@@ -146,7 +146,7 @@ namespace ReadyPlayerSite.Migrations
             t.token = Guid.NewGuid().ToString();
             string[] keywords = { "Solution" };
             t.solution = keywords[rand.Next(0, keywords.Length)];
-            if (rand.Next(0, 2) == 0)
+            if (rand.Next(0, 3) == 0)
             {
                 t.isMilestone = true;
                 t.maxCompletedBonus = rand.Next(5, 15);

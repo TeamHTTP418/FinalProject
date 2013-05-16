@@ -148,8 +148,12 @@ else
                                         var icons = '<img src=\'/Content/Icons/' + icon.iconName + '\' alt=\'' + icon.name + '\' title=\'' + icon.name + '\' height="42" width="42"/>';
                                         iconList += icons;
                                     }
-                                    $("#board tr:last").after('<tr id=\'' + data.playersToLoad[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.playersToLoad[x].player.user.username + '</td><td>' + data.playersToLoad[x].value + '</td><td>' + iconList + '</td></tr>');
+                                    if (isAdmin) {
+                                        $("#board tr:last").after('<tr id=\'' + data.playersToLoad[x].player.user.username + '\'><td>' + playerCount++ + '</td><td><a href="/Users/Details/' + data.playersToLoad[x].player.ID + '">' + data.playersToLoad[x].player.user.username + '</a></td><td>' + data.playersToLoad[x].value + '</td><td>' + iconList + '</td><td><a href="/Admin/ManagePlayer/' + data.playersToLoad[x].player.ID + '">Manage Player</a></td></tr>');
 
+                                    } else {
+                                        $("#board tr:last").after('<tr id=\'' + data.playersToLoad[x].player.user.username + '\'><td>' + playerCount++ + '</td><td>' + data.playersToLoad[x].player.user.username + '</td><td>' + data.playersToLoad[x].value + '</td><td>' + iconList + '</td></tr>');
+                                    }
                                 }
                             }
                             $(".highlight").removeClass('highlight');
